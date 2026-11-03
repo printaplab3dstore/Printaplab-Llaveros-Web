@@ -22,14 +22,18 @@ function pending(value) {
 }
 async function verify() {
   if (busy || !account.session) return;
-  pending(true); locked('Comprobando tu acceso…');
+  const wasLocked = !gate.hidden;
+  pending(true);
+  if (!account.allowed()) locked('Comprobando tu acceso…');
   try {
     if (await account.verify()) {
-      nextCheck = performance.now() + 60000;
+      nextCheck = performance.now() + Math.min(30000, Math.max(500, (account.lease - account.clock()) / 2));
       gate.hidden = true; studio.inert = false;
       byId('sessionEmail').textContent = account.session.email;
-      byId('view').dispatchEvent(new Event('resize'));
-      window.dispatchEvent(new Event('resize'));
+      if (wasLocked) {
+        byId('view').dispatchEvent(new Event('resize'));
+        window.dispatchEvent(new Event('resize'));
+      }
     } else {
       nextCheck = performance.now() + 60000;
       locked('Acceso pendiente, bloqueado o vencido. Contactá al administrador para habilitarlo.');
@@ -66,13 +70,13 @@ window.PrintaplabWebAccess = Object.freeze({allowed: () => account.allowed() && 
 setInterval(() => {
   if (!account.session || document.hidden || busy) return;
   if (!account.allowed() || performance.now() >= nextCheck) {
-    if (gate.hidden) locked('Revalidando el acceso…');
+    if (!account.allowed() && gate.hidden) locked('Revalidando el acceso…');
     if (performance.now() >= nextCheck) verify();
   }
 }, 500);
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) { account.revoke(); if (account.session) locked('Comprobando acceso al volver…'); }
-  else if (account.session) { nextCheck = 0; verify(); }
+  // Changing tabs does not end a valid session. Recheck on return.
+  if (!document.hidden && account.session) { nextCheck = 0; verify(); }
 });
 // Confirmation links may return tokens in the fragment; login is explicit in this version.
 if (/access_token=|refresh_token=|error_description=/.test(location.hash)) history.replaceState(null,'',location.pathname+location.search);
