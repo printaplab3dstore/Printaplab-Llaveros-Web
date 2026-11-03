@@ -55,7 +55,8 @@ export class AccessSession {
     return false;
   }
   async verify() {
-    this.revoke();
+    // Keep the current, unexpired lease during a background renewal.
+    // A denial or request failure still revokes access immediately.
     if (!this.session) return false;
     const epoch = this.epoch;
     try {
@@ -71,6 +72,7 @@ export class AccessSession {
         ? Math.max(0, Math.min(60, data.valid_for_seconds)) : 0;
       const remaining = seconds * 1000 - (this.clock() - started);
       if (data.active === true && remaining > 0) this.lease = this.clock() + remaining;
+      else this.revoke();
       return this.allowed();
     } catch (error) {
       if (epoch === this.epoch) {
