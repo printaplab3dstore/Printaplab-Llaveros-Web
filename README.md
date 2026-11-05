@@ -24,11 +24,19 @@ Pruebas de lógica de acceso: 9 aprobadas el 3 de noviembre de 2026. Pendiente d
 2. Ajustá tamaño, colores y enganche. «Imagen en ambas caras (doble fondo)» es opcional y empieza desactivada. «Ver reverso» permite comprobar la otra cara en 2D y 3D.
 3. Descargá 3MF para conservar los colores o abrí Otras descargas para STL y PNG.
 
-Con doble fondo y sin espejo, cada región de color atraviesa todo el espesor en las mismas coordenadas XY: empieza en Z=0, termina en su superficie superior y se ve por ambas caras. La cara inferior es plana. El reverso se ve invertido naturalmente al mirar la misma pieza desde atrás; el modelo no se refleja ni amplía su silueta. Los colores conservan sus alturas en relieve; boca abajo usa una altura uniforme. El espesor máximo sigue siendo base + dos veces la altura de color máxima (o uniforme).
+## Distribución del color en ambas caras
 
-«Reverso en espejo» es una opción separada, desactivada inicialmente y disponible solo con doble cara. Refleja deliberadamente la geometría del reverso para verla legible desde atrás. La base abarca ambas siluetas y puede haber regiones que empiezan por encima de la cama, especialmente con siluetas asimétricas o alturas distintas: puede necesitar soportes. Desactivar doble cara también apaga el espejo.
+La opción «Imagen en ambas caras» empieza desactivada. Al activarla podés elegir:
 
-La vista del reverso solo transforma la cámara y la selección de colores; no agrega otra reflexión al archivo. Las imágenes con elementos desconectados pueden producir piezas separadas; revisá siempre la unión del enganche y el laminado.
+- **Caras finas · Centro de un solo color:** opción sugerida para reducir cambios de filamento en las capas intermedias. Las dos caras son planas y usan la misma cantidad de capas (3 por defecto, editable entre 2 y 5). Su espesor es cantidad de capas × altura de capa de referencia. Entre ambas hay un centro continuo que usa el espesor y color de base. Los controles de relieve no se aplican en este modo.
+- **Color en todo el espesor:** conserva el dibujo en cada columna XY de lado a lado y permite editar las alturas de relieve. Tiene cambios de color también en el centro.
+
+Elegí el color del centro en Colores → Color del centro, borde y capas. El modo automático reutiliza el color más oscuro del dibujo; también podés elegir uno independiente.
+
+En ambas modalidades el reverso alineado se ve invertido naturalmente al mirar la misma pieza desde atrás. «Reverso en espejo» es una opción separada, apagada al inicio y disponible solo con doble cara. Refleja deliberadamente la geometría del reverso. Con color en todo el espesor puede crear voladizos y requerir soportes. En caras finas la base ocupa ambas siluetas desde Z=0, sosteniendo las dos superficies.
+
+La vista 2D, la vista 3D y las exportaciones usan los mismos intervalos de material. El suavizado de exportación conserva la misma unión XY entre las partes. Las imágenes con elementos desconectados pueden seguir produciendo piezas separadas. El tiempo y el ahorro final se comprueban al laminar: dependen del diseño, los filamentos y la configuración de impresión.
+
 
 ## Verificaciones locales
 

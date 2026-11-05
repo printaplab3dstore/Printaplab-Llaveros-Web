@@ -2,11 +2,11 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const html=fs.readFileSync('index.html','utf8');
 const main=html.slice(html.indexOf("'use strict';"),html.indexOf('</script>',html.indexOf("'use strict';")));
 new vm.Script(main);
-const values={contourSmooth:'0',width:'60',border:'0',hole:'4',wall:'2',attachType:'hook',tabLength:'8',baseSlot:'custom',baseColor:'#151515',base:'2',mode:'relief',layer:'0.2',pos:'top'};
+const values={colorFill:'through',skinLayers:'3',contourSmooth:'0',width:'60',border:'0',hole:'4',wall:'2',attachType:'hook',tabLength:'8',baseSlot:'custom',baseColor:'#151515',base:'2',mode:'relief',layer:'0.2',pos:'top'};
 const els=new Proxy({}, {get:(o,k)=>o[k]??=( {value:values[k],checked:false,textContent:''})});
-const c=vm.createContext({console,els,assert});
+const c=vm.createContext({console,els,assert,document:{querySelectorAll:()=>[]}});
 vm.runInContext(`const $=id=>els[id],num=id=>Number($(id).value);let scene,pal=['#ff0000','#00ff00'],heights=[.4,.8],labels,W,H;function qheight(v){let l=num('layer');return Math.max(l,Math.round(v/l)*l)}function draw(){}function exportPalette(){};`,c);
-for(const [start,end] of [['function rebuild(){','function previewScene(){'],['function contourGrid(s){','$(\'contourSmooth\').onchange'],['function doubleColumn(s,i){','function meshFor(kind){'],['function meshFor(kind){',"$('baseColor').onchange"],['function unified(){',"$('stl').onclick"]])vm.runInContext(main.slice(main.indexOf(start),main.indexOf(end,main.indexOf(start))),c);
+for(const [start,end] of [['function rebuild(){','function previewScene(){'],['function contourGrid(s){','$(\'contourSmooth\').onchange'],['function distributionUI(){','function meshFor(kind){'],['function meshFor(kind){',"$('baseColor').onchange"],['function unified(){',"$('stl').onclick"]])vm.runInContext(main.slice(main.indexOf(start),main.indexOf(end,main.indexOf(start))),c);
 vm.runInContext(`
 function volume(m){let v=0;for(let t of m.tris){let [a,b,c]=t.map(i=>m.verts[i]);v+=(a[0]*(b[1]*c[2]-b[2]*c[1])+a[1]*(b[2]*c[0]-b[0]*c[2])+a[2]*(b[0]*c[1]-b[1]*c[0]))/6}return v}
 function closed(m){let edges=new Map();for(let t of m.tris)for(let j=0;j<3;j++){let a=t[j],b=t[(j+1)%3],key=[Math.min(a,b),Math.max(a,b)].join(',');edges.set(key,(edges.get(key)||0)+(a<b?1:-1))}assert.ok([...edges.values()].every(n=>n===0),'oriented closed surface')}
@@ -30,7 +30,22 @@ $('contourSmooth').value='5';rebuild();sampleAligned();for(let layer of ['0.12',
 W=12;H=10;labels=new Int16Array(W*H);$('eye').checked=true;$('attachType').value='hole';rebuild();assert.equal(scene.attachmentWarning,'');assert.ok(scene.ring);for(let i=0;i<scene.map.length;i++)if(!scene.baseMask[i])assert.equal(scene.map[i],-1);sampleAligned();
 // Every attachment column also starts on Z=0, for short and full-height attachments.
 for(let type of ['hook','bookmark'])for(let full of [false,true])for(let pos of ['top','bottom','left','right']){$('attachType').value=type;$('eyeFull').checked=full;$('pos').value=pos;rebuild();assert.equal(scene.attachmentWarning,'');closed(unified());for(let i=0;i<scene.map.length;i++){let intervals=doubleIntervals(scene,i);if(intervals.length)assert.equal(intervals[0].lo,0)}}
+// Surface-only colors: equal flat skins and one solid-color core, in aligned and mirror modes.
+$('eye').checked=false;$('border').value='0';W=4;H=3;labels=new Int16Array([0,0,1,-1,0,1,1,-1,0,0,-1,-1]);
+$('colorFill').value='skins';
+for(let mirror of [false,true])for(let layer of ['0.12','0.16','0.2','0.28'])for(let n of [2,3,5]){
+ $('mirrorBack').checked=mirror;$('layer').value=layer;$('skinLayers').value=n;rebuild();let total=doubleHeight(scene),skin=scene.skin,whole=unified(),core=meshFor(-1);closed(whole);assert.equal($('mode').disabled,true);assert.ok(Math.abs(skin-n*Number(layer))<1e-8);
+ let parts=[-1,0,1].map(k=>meshFor(k));parts.forEach(closed);assert.ok(Math.abs(parts.reduce((n,p)=>n+volume(p),0)-volume(whole))<1e-6);
+ for(let y=0;y<scene.ny;y++)for(let x=0;x<scene.nx;x++){
+  let i=y*scene.nx+x,px=(x+.5)*scene.step,py=(scene.ny-y-.5)*scene.step,h=intersections(whole,px,py);
+  if(!scene.baseMask[i]){assert.equal(h.length,0);continue}assert.equal(h.length,2);assert.ok(Math.abs(h[0])<1e-8);assert.ok(Math.abs(h[1]-total)<1e-8);
+  let mid=intersections(core,px,py);assert.ok(mid.some(z=>z<=skin+1e-8)&&mid.some(z=>z>=skin+scene.base-1e-8),'continuous core throughout middle');
+  for(let j=0;j<3;j++){let z=skin+(j+.5)*scene.base/3;assert.equal(doubleIntervals(scene,i).find(c=>z>=c.lo&&z<c.hi).kind,-1,'only core material at intermediate heights')}
+ }
+}
+$('colorFill').value='through';rebuild();assert.equal($('mode').disabled,false);
 $('doubleSided').checked=false;rebuild();assert.equal(scene.doubleSided,false);assert.equal(scene.base,qheight(2));
-console.log('OK: aligned XY, continuous colors from Z=0, actual mesh cross-sections, optional mirror, transitions, volumes, closed surfaces, flat/relief, layer quantization, holes and attachments');
+console.log('OK: aligned XY, continuous colors from Z=0, actual mesh cross-sections, optional mirror, transitions, volumes, closed surfaces, flat/relief, layer quantization, holes, attachments and equal skins with a single-color core');
 `,c);
+
 

@@ -28,7 +28,7 @@ def approx(a,b):
     assert len(a)==len(b),(a,b)
     assert all(abs(x-y)<1e-4 for x,y in zip(a,b)),(a,b)
 
-for mode in ['aligned','mirror']:
+for mode in ['aligned','mirror','skins-aligned','skins-mirror']:
     fixture=json.loads((ROOT/f'{mode}-fixture.json').read_text())
     whole=stl((ROOT/f'{mode}.stl').read_bytes())
     with ZipFile(ROOT/f'{mode}.3mf') as z:
@@ -59,6 +59,11 @@ for mode in ['aligned','mirror']:
         expected=[] if not segments else [segments[0]['lo'],segments[-1]['hi']]
         approx(hits(whole,x,y),expected)
         if segments and segments[0]['lo']>1e-6: suspended+=1
+        if mode.startswith('skins-') and segments:
+            skin=fixture['skin'];base=fixture['base']
+            assert all(s['kind']==-1 for s in segments if s['hi']>skin+1e-6 and s['lo']<skin+base-1e-6)
+            assert abs(segments[0]['hi']-skin)<1e-6
+            assert abs(segments[-1]['hi']-segments[-1]['lo']-skin)<1e-6
         for name,tris in meshes.items():
             kind=int(name.split(' ')[-1])-1 if name.startswith('Color ') else -2 if name=='Ojal' else -1
             selected=[s for s in segments if s['kind']==kind]
@@ -67,6 +72,6 @@ for mode in ['aligned','mirror']:
                 if merged and abs(merged[-1]-s['lo'])<1e-6: merged[-1]=s['hi']
                 else: merged.extend([s['lo'],s['hi']])
             approx(hits(tris,x,y),merged)
-    if mode=='aligned': assert suspended==0
+    if mode!='mirror': assert suspended==0
     else: assert suspended>0 # Explicitly retained behavior: the mirror option can require support.
     print(f'OK {mode}: real STL/3MF/ZIP match; all XY sections match; {suspended} columns begin above bed')
