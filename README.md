@@ -31,4 +31,6 @@ El reverso repite la imagen legible al girar la pieza de izquierda a derecha. Pa
 - `node tests/double-sided.cjs`: orientación, activación/desactivación, espesores, volúmenes, superficies cerradas, partes por color, modo plano, agujero y suavizado.
 - `node tests/check-layout.cjs`: prueba en Chrome sin interfaz a 1440, 390 y 320 píxeles; conversión, frente/reverso, edición en vivo y generación de STL/3MF. Si Chrome está en otra ubicación, definir `CHROME_PATH`. Requiere Node 22 o superior.
 
+- `node tests/check-published.cjs`: comprueba por HTTPS que HTML y archivos de acceso publicados coinciden con la copia local.
+
 La prueba de navegador genera un documento local de prueba con el acceso oculto; no cambia el acceso de la aplicación. Sus capturas y perfiles quedan excluidos de Git. No valida una sesión real de Supabase ni sustituye la revisión del archivo en Bambu Studio o una impresión física.

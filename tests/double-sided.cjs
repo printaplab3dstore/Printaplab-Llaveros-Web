@@ -5,7 +5,7 @@ new vm.Script(main);
 const values={contourSmooth:'0',width:'60',border:'0',hole:'4',wall:'2',attachType:'hook',tabLength:'8',baseSlot:'custom',baseColor:'#151515',base:'2',mode:'relief',layer:'0.2',pos:'top'};
 const els=new Proxy({}, {get:(o,k)=>o[k]??=( {value:values[k],checked:false,textContent:''})});
 const c=vm.createContext({console,els,assert});
-vm.runInContext(`const $=id=>els[id],num=id=>Number($(id).value);let scene,pal=['#ff0000','#00ff00'],heights=[.4,.8],labels,W,H;function qheight(v){return Math.max(.2,Math.round(v/.2)*.2)}function draw(){}function exportPalette(){};`,c);
+vm.runInContext(`const $=id=>els[id],num=id=>Number($(id).value);let scene,pal=['#ff0000','#00ff00'],heights=[.4,.8],labels,W,H;function qheight(v){let l=num('layer');return Math.max(l,Math.round(v/l)*l)}function draw(){}function exportPalette(){};`,c);
 for(const [start,end] of [['function rebuild(){','function previewScene(){'],['function contourGrid(s){','$(\'contourSmooth\').onchange'],['function doubleMesh(kind){','function meshFor(kind){'],['function meshFor(kind){',"$('baseColor').onchange"],['function unified(){',"$('stl').onclick"]])vm.runInContext(main.slice(main.indexOf(start),main.indexOf(end,main.indexOf(start))),c);
 vm.runInContext(`
 function volume(m){let v=0;for(let t of m.tris){let [a,b,c]=t.map(i=>m.verts[i]);v+=(a[0]*(b[1]*c[2]-b[2]*c[1])+a[1]*(b[2]*c[0]-b[0]*c[2])+a[2]*(b[0]*c[1]-b[1]*c[0]))/6}return v}
@@ -25,7 +25,7 @@ $('contourSmooth').value='5';closed(unified());
 for(let type of ['hook','bookmark'])for(let full of [false,true])for(let pos of ['top','bottom','left','right']){$('attachType').value=type;$('eyeFull').checked=full;$('pos').value=pos;rebuild();assert.equal(scene.attachmentWarning,'');closed(unified());}
 $('layer').value='0.16';rebuild();closed(unified());
 
-$('doubleSided').checked=false;rebuild();assert.equal(scene.doubleSided,false);assert.equal(scene.base,2);
+$('doubleSided').checked=false;rebuild();assert.equal(scene.doubleSided,false);assert.equal(scene.base,qheight(2));
 console.log('OK: syntax, optional toggle, rear orientation, thickness, volume, closed meshes, parts, flat mode, hole and smoothing');
 `,c);
 
