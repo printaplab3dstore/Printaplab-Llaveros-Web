@@ -1,16 +1,31 @@
-# Verificación · 5 de noviembre de 2026
+# Corrección de doble cara · 5 de noviembre de 2026
 
-- Geometría: activación y desactivación, reverso legible por reflexión horizontal, siluetas asimétricas, espesores y volúmenes, superficies orientadas cerradas, suma de partes por color, plano y relieve, suavizado, agujero interno, ojal y pestaña en las cuatro posiciones y con ambas alturas.
-- Navegador Chrome: conversión de ejemplo, vistas 2D/3D y frente/reverso, edición de altura en vivo y generación de STL y 3MF.
-- Distribución: 1440, 390 y 320 píxeles; capturas revisadas de escritorio, celular y acceso; sin desbordamiento horizontal de la página o sus controles en las vistas probadas.
-- GitHub Pages: despliegue exitoso y respuesta HTTPS 200. HTML, CSS y módulos de acceso coinciden con los archivos locales verificados.
+## Comportamiento corregido
 
-No se probó el ingreso con credenciales reales, la apertura del modelo en Bambu Studio, una impresión física ni todos los navegadores/dispositivos. Las pruebas de navegador usan la resolución rápida de 160; las de geometría usan patrones controlados.
+El doble fondo empieza desactivado. Al activarlo, los colores atraviesan el espesor en las mismas coordenadas XY y cada columna sólida empieza en Z=0. Se eliminó la segunda silueta del modo normal y la construcción de una capa inferior de alturas variables que dejaba regiones suspendidas. El reverso se ve invertido naturalmente por el punto de vista, sin reflejar el archivo.
 
-## Respaldo anterior a la publicación
+«Reverso en espejo» conserva la variante reflejada como opción explícita, inicialmente apagada y dependiente de doble cara. Puede crear zonas por encima de la cama y requerir soportes. Al apagar doble cara también se apaga el espejo. La interfaz y sus colores existentes se conservan.
 
-Commit original: `5530b0418d79feb894dc1bf72c31e7f1ade168f8`.
+La vista 2D, la vista 3D, la selección y las exportaciones usan los mismos intervalos de material por celda. Los límites Z se redondean a 9 decimales para evitar capas microscópicas causadas por errores de coma flotante. Se conserva el suavizado XY de exportación documentado en la interfaz.
 
-Rama recuperable: [backup/2026-11-05-antes-doble-cara](https://github.com/printaplab3dstore/Printaplab-Llaveros-Web/tree/backup/2026-11-05-antes-doble-cara).
+## Comprobaciones
 
-Copia local: `backups/Printaplab-antes-doble-cara-2026-11-05.zip`. La copia local y los artefactos de prueba están excluidos de Git.
+- Patrones asimétricos con dos colores y alturas diferentes; modo alineado, espejo, desactivación y reactivación.
+- Secciones verticales de los triángulos reales: una columna continua desde Z=0, sin huecos internos ni una capa inferior flotante en modo alineado. La huella de las capas superiores no agrega columnas sin apoyo debajo.
+- Geometría cerrada y orientada, volumen de STL único igual a la suma de las partes, agujeros internos, ojal y pestaña en las cuatro posiciones y con ambas alturas.
+- Capas de 0,12 / 0,16 / 0,20 / 0,28 mm, modo plano y relieve, borde y suavizado.
+- La paleta informada coincide con los materiales exportados; no muestra una base adicional si el color atraviesa toda la pieza y esa base no se usa.
+- Chrome a 1440, 390 y 320 píxeles: frente/reverso, selección de ambos colores en 2D y 3D, edición en vivo, controles dependientes y generación real de STL, ZIP por color y 3MF.
+- Lectura independiente de STL binario y XML dentro del 3MF: coincidencia de triángulos con los STL por color, volúmenes y secciones en todas las celdas del patrón. En ese patrón alineado, cero columnas suspendidas; en espejo, se detectan deliberadamente columnas elevadas, confirmando el límite descrito en la interfaz.
+
+## Límites
+
+La captura del Grinch muestra el aviso de Bambu Studio, pero no se dispone de la imagen original ni del 3MF de ese ejemplo. No se reprodujo ese laminado exacto ni se validó una impresión física o el ingreso con credenciales reales. Estas pruebas no equivalen a un laminado aprobado en Bambu Studio ni garantizan ausencia universal de soportes. Las islas ya desconectadas en la imagen pueden seguir siendo piezas separadas.
+
+## Respaldo antes de esta corrección
+
+Commit: `54961ca67faf44de383582433aeed3fe46b83a88`.
+
+Rama: [backup/2026-11-05-antes-continuidad-xy](https://github.com/printaplab3dstore/Printaplab-Llaveros-Web/tree/backup/2026-11-05-antes-continuidad-xy).
+
+Copia local: `backups/Printaplab-antes-continuidad-xy-2026-11-05.zip`.
