@@ -1,0 +1,6 @@
+backups/
+tests/*-profile/
+tests/browser-check.html
+tests/*-dom.html
+tests/*.png
+tests/*stderr.txt

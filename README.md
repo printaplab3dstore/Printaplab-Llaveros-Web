@@ -16,3 +16,19 @@ Incluye vista 2D/3D, edición de colores y alturas, agujero para llavero y expor
 Solo contiene archivos para navegador y la clave pública de Supabase. No incluye Android, .env ni credenciales privadas. El código es público: el acceso limita la interfaz oficial, no impide copiar o modificar el motor local.
 
 Pruebas de lógica de acceso: 9 aprobadas el 3 de noviembre de 2026. Pendiente de comprobar visualmente en el sitio publicado e ingresar con una cuenta real.
+
+
+## Crear un llavero
+
+1. Cargá una imagen (se convierte automáticamente) o usá el ejemplo.
+2. Ajustá tamaño, colores y enganche. «Imagen en ambas caras (doble fondo)» es opcional y empieza desactivada. «Ver reverso» permite comprobar la otra cara en 2D y 3D.
+3. Descargá 3MF para conservar los colores o abrí Otras descargas para STL y PNG.
+
+El reverso repite la imagen legible al girar la pieza de izquierda a derecha. Para imágenes asimétricas, la base abarca la silueta original y su reflejo. El agujero atraviesa ambas caras. El espesor total incluye la base y las dos capas de color. En boca abajo todos los colores usan una altura uniforme; en relieve conservan sus alturas individuales.
+
+## Verificaciones locales
+
+- `node tests/double-sided.cjs`: orientación, activación/desactivación, espesores, volúmenes, superficies cerradas, partes por color, modo plano, agujero y suavizado.
+- `node tests/check-layout.cjs`: prueba en Chrome sin interfaz a 1440, 390 y 320 píxeles; conversión, frente/reverso, edición en vivo y generación de STL/3MF. Si Chrome está en otra ubicación, definir `CHROME_PATH`. Requiere Node 22 o superior.
+
+La prueba de navegador genera un documento local de prueba con el acceso oculto; no cambia el acceso de la aplicación. Sus capturas y perfiles quedan excluidos de Git. No valida una sesión real de Supabase ni sustituye la revisión del archivo en Bambu Studio o una impresión física.
