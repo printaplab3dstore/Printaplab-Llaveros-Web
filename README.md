@@ -47,3 +47,12 @@ La vista 2D, la vista 3D y las exportaciones usan los mismos intervalos de mater
 - `node tests/check-published.cjs`: comprueba por HTTPS que HTML y archivos de acceso publicados coinciden con la copia local.
 
 La prueba de navegador genera un documento local de prueba con el acceso oculto; no cambia el acceso de la aplicación. Sus capturas y perfiles quedan excluidos de Git. No valida una sesión real de Supabase ni sustituye la revisión del archivo en Bambu Studio o una impresión física.
+
+
+## Posavasos y dos imágenes diferentes
+
+El selector Posavasos aplica disco de 90 mm, sin agujero, resolución 400 y una cara coloreada de tres capas de 0,2 mm contra la cama con respaldo negro de 2 mm. Incluye dos prompts copiables para crear una imagen circular o adaptar una referencia. El 3MF incorpora perfil A1 de 0,4 mm, Generic PLA y PEI texturizada; verificar la configuración y el laminado antes de imprimir.
+
+En ambos productos se puede activar «Usar una imagen diferente en el reverso». El frente define el contorno y el reverso se centra y recorta a esa misma pieza; su orientación se corrige para leerlo desde afuera. Las dos imágenes comparten hasta cuatro colores, incluido el centro. Se usan obligatoriamente tres capas de color por cara y centro sólido de un solo color. Con capa de 0,2 mm y centro de 2 mm, espesor total 3,2 mm. La miniatura del 3MF muestra ambas referencias. Al desactivar la opción se restauran los ajustes anteriores.
+
+Se conservan el formulario y los archivos de acceso Supabase, incluida la comprobación de permiso antes de descargar. Validación: pruebas de geometría (`node tests/different-images.cjs`), conversión/exportación en Chrome y bloqueo de descarga sin autorización. Las credenciales reales y la impresión física deben comprobarse aparte.

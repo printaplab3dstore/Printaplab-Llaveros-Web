@@ -1,0 +1,60 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const html=fs.readFileSync(require('node:path').join(__dirname,'../index.html'),'utf8');
+const main=html.slice(html.indexOf("'use strict';"),html.indexOf('</script>',html.indexOf("'use strict';")));
+new vm.Script(main);
+const values={colorFill:'through',skinLayers:'3',contourSmooth:'0',width:'60',border:'0',hole:'4',wall:'2',attachType:'hook',tabLength:'8',baseSlot:'custom',baseColor:'#151515',base:'2',mode:'relief',layer:'0.2',pos:'top'};
+const els=new Proxy({}, {get:(o,k)=>o[k]??=( {value:values[k],checked:false,textContent:''})});
+const c=vm.createContext({console,els,assert,document:{querySelectorAll:()=>[]}});
+vm.runInContext(`const $=id=>els[id],num=id=>Number($(id).value);function isCoaster(){return false}function enforceIndependentFaces(){}function hasIndependentBack(){return false}let rearLabels=null;let scene,pal=['#ff0000','#00ff00'],heights=[.4,.8],labels,W,H;function qheight(v){let l=num('layer');return Math.max(l,Math.round(v/l)*l)}function draw(){}function exportPalette(){};`,c);
+for(const [start,end] of [['function rebuild(){','function previewScene(){'],['function contourGrid(s){','$(\'contourSmooth\').onchange'],['function distributionUI(){','function meshFor(kind){'],['function meshFor(kind){',"$('baseColor').onchange"],['function unified(){',"$('stl').onclick"]])vm.runInContext(main.slice(main.indexOf(start),main.indexOf(end,main.indexOf(start))),c);
+vm.runInContext(`
+function volume(m){let v=0;for(let t of m.tris){let [a,b,c]=t.map(i=>m.verts[i]);v+=(a[0]*(b[1]*c[2]-b[2]*c[1])+a[1]*(b[2]*c[0]-b[0]*c[2])+a[2]*(b[0]*c[1]-b[1]*c[0]))/6}return v}
+function closed(m){let edges=new Map();for(let t of m.tris)for(let j=0;j<3;j++){let a=t[j],b=t[(j+1)%3],key=[Math.min(a,b),Math.max(a,b)].join(',');edges.set(key,(edges.get(key)||0)+(a<b?1:-1))}assert.ok([...edges.values()].every(n=>n===0),'oriented closed surface')}
+// Sample the actual exported triangles, independently of the column generator.
+function intersections(m,px,py){let hits=[];for(let t of m.tris){let [a,b,c]=t.map(i=>m.verts[i]),den=(b[1]-c[1])*(a[0]-c[0])+(c[0]-b[0])*(a[1]-c[1]);if(Math.abs(den)<1e-10)continue;let u=((b[1]-c[1])*(px-c[0])+(c[0]-b[0])*(py-c[1]))/den,v=((c[1]-a[1])*(px-c[0])+(a[0]-c[0])*(py-c[1]))/den;if(u>=-1e-8&&v>=-1e-8&&u+v<=1+1e-8)hits.push(u*a[2]+v*b[2]+(1-u-v)*c[2])}hits.sort((a,b)=>a-b);return hits.filter((v,i)=>!i||Math.abs(v-hits[i-1])>1e-7)}
+function sampleAligned(){let whole=unified(),parts=[-1,-2,0,1].map(k=>meshFor(k));closed(whole);parts.forEach(closed);assert.ok(Math.abs(parts.reduce((n,m)=>n+volume(m),0)-volume(whole))<1e-6);for(let y=0;y<scene.ny;y++)for(let x=0;x<scene.nx;x++){let i=y*scene.nx+x,c=doubleColumn(scene,i),px=(x+.5)*scene.step,py=(scene.ny-y-.5)*scene.step,hits=intersections(whole,px,py);if(!scene.baseMask[i]){assert.equal(hits.length,0);continue}assert.equal(hits.length,2,'one continuous vertical interval');assert.ok(Math.abs(hits[0])<1e-8,'starts on bed');assert.ok(Math.abs(hits[1]-c.top)<1e-7);let material=meshFor(c.kind);let colorHits=intersections(material,px,py);assert.equal(colorHits.length,2);assert.ok(Math.abs(colorHits[0])<1e-8,'color reaches bed');assert.ok(Math.abs(colorHits[1]-c.top)<1e-7)}return whole}
+W=4;H=3;labels=new Int16Array([0,0,1,-1,0,1,1,-1,0,0,-1,-1]);
+rebuild();assert.equal(scene.doubleSided,false);assert.equal($('mirrorBack').disabled,true);let originalMask=new Uint8Array(scene.baseMask),originalMap=new Int16Array(scene.map);
+$('doubleSided').checked=true;rebuild();assert.equal(scene.mirrorBack,false);assert.equal($('mirrorBack').disabled,false);assert.deepEqual(scene.baseMask,originalMask);assert.deepEqual(scene.map,originalMap);assert.deepEqual(scene.backMap,scene.map);
+let m=sampleAligned();assert.ok(Math.abs(Math.max(...m.verts.map(v=>v[2]))-3.6)<1e-9);
+// The footprint at every higher layer is contained in the preceding layer: no newly floating regions.
+for(let i=0;i<scene.map.length;i++){let intervals=doubleIntervals(scene,i);if(intervals.length){assert.equal(intervals.length,1);assert.equal(intervals[0].lo,0)}}
+$('mode').value='flat';rebuild();m=sampleAligned();assert.ok(Math.abs(Math.max(...m.verts.map(v=>v[2]))-2.8)<1e-9);
+// Explicit mirror mode preserves the old optional geometry, including its support requirement.
+$('mirrorBack').checked=true;$('mode').value='relief';rebuild();assert.equal(scene.mirrorBack,true);let shifted=false,suspended=false;for(let y=0;y<scene.ny;y++)for(let x=0;x<scene.nx;x++){let i=y*scene.nx+x;assert.equal(scene.backMap[i],scene.map[y*scene.nx+scene.nx-1-x]);if(scene.backMap[i]!==scene.map[i])shifted=true;let segments=doubleIntervals(scene,i);if(segments.length&&segments[0].lo>1e-8)suspended=true}assert.ok(shifted);assert.ok(suspended,'test demonstrates why mirror mode may need supports');closed(unified());
+$('doubleSided').checked=false;rebuild();assert.equal(scene.mirrorBack,false);assert.equal($('mirrorBack').disabled,true);assert.deepEqual(scene.baseMask,originalMask);
+$('mirrorBack').checked=false;$('doubleSided').checked=true;rebuild();assert.deepEqual(scene.baseMask,originalMask);sampleAligned();
+// Unequal heights and non-default layer quantization must not suspend a shorter region.
+$('layer').value='0.16';heights=[.32,1.12];$('border').value='2';rebuild();sampleAligned();
+$('contourSmooth').value='5';rebuild();sampleAligned();for(let layer of ['0.12','0.16','0.2','0.28']){$('layer').value=layer;rebuild();sampleAligned();}
+W=12;H=10;labels=new Int16Array(W*H);$('eye').checked=true;$('attachType').value='hole';rebuild();assert.equal(scene.attachmentWarning,'');assert.ok(scene.ring);for(let i=0;i<scene.map.length;i++)if(!scene.baseMask[i])assert.equal(scene.map[i],-1);sampleAligned();
+// Every attachment column also starts on Z=0, for short and full-height attachments.
+for(let type of ['hook','bookmark'])for(let full of [false,true])for(let pos of ['top','bottom','left','right']){$('attachType').value=type;$('eyeFull').checked=full;$('pos').value=pos;rebuild();assert.equal(scene.attachmentWarning,'');closed(unified());for(let i=0;i<scene.map.length;i++){let intervals=doubleIntervals(scene,i);if(intervals.length)assert.equal(intervals[0].lo,0)}}
+// Surface-only colors: equal flat skins and one solid-color core, in aligned and mirror modes.
+$('eye').checked=false;$('border').value='0';W=4;H=3;labels=new Int16Array([0,0,1,-1,0,1,1,-1,0,0,-1,-1]);
+$('colorFill').value='skins';
+for(let mirror of [false,true])for(let layer of ['0.12','0.16','0.2','0.28'])for(let n of [2,3,5]){
+ $('mirrorBack').checked=mirror;$('layer').value=layer;$('skinLayers').value=n;rebuild();let total=doubleHeight(scene),skin=scene.skin,whole=unified(),core=meshFor(-1);closed(whole);assert.equal($('mode').disabled,true);assert.ok(Math.abs(skin-n*Number(layer))<1e-8);
+ let parts=[-1,0,1].map(k=>meshFor(k));parts.forEach(closed);assert.ok(Math.abs(parts.reduce((n,p)=>n+volume(p),0)-volume(whole))<1e-6);
+ for(let y=0;y<scene.ny;y++)for(let x=0;x<scene.nx;x++){
+  let i=y*scene.nx+x,px=(x+.5)*scene.step,py=(scene.ny-y-.5)*scene.step,h=intersections(whole,px,py);
+  if(!scene.baseMask[i]){assert.equal(h.length,0);continue}assert.equal(h.length,2);assert.ok(Math.abs(h[0])<1e-8);assert.ok(Math.abs(h[1]-total)<1e-8);
+  let mid=intersections(core,px,py);assert.ok(mid.some(z=>z<=skin+1e-8)&&mid.some(z=>z>=skin+scene.base-1e-8),'continuous core throughout middle');
+  for(let j=0;j<3;j++){let z=skin+(j+.5)*scene.base/3;assert.equal(doubleIntervals(scene,i).find(c=>z>=c.lo&&z<c.hi).kind,-1,'only core material at intermediate heights')}
+ }
+}
+$('colorFill').value='through';rebuild();assert.equal($('mode').disabled,false);
+$('doubleSided').checked=false;rebuild();assert.equal(scene.doubleSided,false);assert.equal(scene.base,qheight(2));
+console.log('OK: aligned XY, continuous colors from Z=0, actual mesh cross-sections, optional mirror, transitions, volumes, closed surfaces, flat/relief, layer quantization, holes, attachments and equal skins with a single-color core');
+`,c);
+
+
+
+vm.runInContext(`
+$('contourSmooth').value='0';W=5;H=4;labels=new Int16Array(W*H);for(let i=0;i<labels.length;i++)labels[i]=i%W<2?0:1;
+$('doubleSided').checked=true;$('colorFill').value='skins';$('mirrorBack').checked=false;$('eye').checked=false;$('border').value='0';$('layer').value='0.2';$('base').value='2';$('skinLayers').value='3';rebuild();scene.independentBack=true;scene.backMap=new Int16Array(scene.map);
+for(let y=0;y<scene.ny;y++)for(let x=0;x<scene.nx;x++){let i=y*scene.nx+x;if(scene.baseMask[i])scene.backMap[i]=y<scene.ny/2?1:0;}
+let parts=[-1,0,1].map(k=>meshFor(k));let whole=unified();parts.forEach(closed);closed(whole);assert.ok(Math.abs(parts.reduce((n,m)=>n+volume(m),0)-volume(whole))<1e-5);
+for(let y=0;y<scene.ny;y++)for(let x=0;x<scene.nx;x++){let i=y*scene.nx+x;if(!scene.baseMask[i])continue;let px=(x+.37)*scene.step,py=(scene.ny-y-.41)*scene.step;let all=intersections(whole,px,py);assert.equal(all.length,2);assert.ok(Math.abs(all[0])<1e-8&&Math.abs(all[1]-3.2)<1e-8);let core=intersections(parts[0],px,py);assert.equal(core.length,2);assert.ok(Math.abs(core[0]-.6)<1e-8&&Math.abs(core[1]-2.6)<1e-8,'actual exported core monocolor interval');let lo=intersections(parts[scene.backMap[i]+1],px,py),hi=intersections(parts[scene.map[i]+1],px,py);assert.ok(lo.some(z=>Math.abs(z)<1e-8),'rear color touches bed');assert.ok(hi.some(z=>Math.abs(z-3.2)<1e-8),'front color reaches top');}
+console.log('OK: two-image actual mesh intersections, closed surfaces, material volumes, solid core and independent top/bottom colors');
+`,c);
