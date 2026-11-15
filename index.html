@@ -38,12 +38,852 @@ main{padding:30px 28px;min-width:0}.workspace-heading{display:flex;justify-conte
 
 #accessGate{background:radial-gradient(ellipse at 20% 20%,#123e70 0,transparent 60%),#071421}.access-mark,.access-intro h1 span,.access-card a,.session-bar a{color:#91caff}.access-card{background:#0c2137;border-color:#345b7b}.access-card{border-top:4px solid #ed5261}.access-features span{border-color:#416788;color:#d1e6fa}.access-card input:focus-visible,.access-card button:focus-visible{outline-color:#7bbcff}.session-bar{background:#061526;flex-wrap:wrap}.session-bar button{flex-shrink:0}.panel-heading{gap:8px}.panel-live{white-space:nowrap}
 .common-row label{min-height:28px;display:flex;align-items:flex-end}.face-settings{border:1px solid #254b68;border-radius:12px;background:#0a2135;padding:14px;margin:18px 0 12px}.face-settings h2{font-size:11px;line-height:1.5;letter-spacing:.6px;margin:0 0 12px;color:#cae5ff}.face-settings p.note{font-size:11px;line-height:1.65}.face-settings label{font-size:12px}.face-settings select:disabled,#mode:disabled,#palette input:disabled,#editHeight:disabled{opacity:.5;cursor:default}
-</style><link rel="stylesheet" href="./access.css"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta name="description" content="Taller Printaplab de llaveros 3D multicolor. Ingresá con tu cuenta de Android y exportá 3MF y STL."></head><body><section id="accessGate" aria-label="Acceso a Printaplab"><div class="access-shell"><div class="access-intro"><div class="access-mark">PRINTAPLAB · 3D STORE</div><h1>Tu próxima idea.<br><span>Lista para imprimir.</span></h1><p>Convertí tus imágenes en llaveros 3D multicolor. El mismo taller, ahora también desde tu navegador.</p><div class="access-features"><span>3MF multicolor</span><span>STL por color</span><span>Procesamiento local</span></div></div><div class="access-card"><h2>Entrá a tu taller.</h2><p>Tu cuenta de Android también funciona acá.</p><form id="accessForm"><div id="credentials"><label for="accessEmail">Correo electrónico</label><input id="accessEmail" type="email" autocomplete="username" placeholder="vos@ejemplo.com" required><label for="accessPassword">Contraseña</label><input id="accessPassword" type="password" autocomplete="current-password" placeholder="Tu contraseña" required><button id="accessLogin" class="primary" type="submit">Ingresar al taller →</button><button id="accessRegister" class="access-secondary" type="button">Crear una cuenta</button><p class="access-small" style="padding:12px;border:1px solid #475569;border-radius:10px"><strong>¿Ya creaste tu cuenta?</strong><br>Pedí la aprobación por mensaje directo a <a href="https://www.instagram.com/printaplab3dstore/" target="_blank" rel="noopener noreferrer">@printaplab3dstore en Instagram</a>. Indicá el correo que usaste para registrarte.</p></div><p id="accessIdentity"></p><p id="accessMessage" class="access-message" role="status">Cargando el acceso… Si no avanza, comprobá tu conexión y que JavaScript esté habilitado.</p><button id="accessRetry" class="primary" type="button" hidden>Volver a comprobar acceso</button><button id="accessSignout" class="access-secondary" type="button" hidden>Cerrar sesión</button></form><p class="access-small">Los diseños y archivos se procesan en este dispositivo; no se sincronizan entre equipos.<br><a href="/">Volver a Printaplab</a></p></div></div></section><div id="studio" inert><div class="session-bar"><a href="/">← Printaplab</a><span id="sessionEmail"></span><button id="sessionSignout" type="button">Cerrar sesión</button></div><header><div aria-hidden="true" class="brandmark"><svg fill="none" height="30" viewbox="0 0 36 36" width="30"><path d="M18 3 32 11v14l-14 8L4 25V11L18 3Z" stroke="currentColor" stroke-width="2"></path><path d="m4 11 14 8 14-8M18 19v14M11 7l14 8v8" stroke="currentColor" stroke-width="2"></path></svg></div><div class="brandword">PRINTAP<span>LAB</span><small>3D STORE / CREATIVE TOOLS</small></div><div class="header-divider"></div><div class="product-name">Taller de llaveros y posavasos<small>De tu diseño a una pieza real.</small></div><div class="header-end"><span class="local-dot"></span> Procesamiento local <span class="version-pill">WEB · 1.5</span></div></header><div class="layout"><main><div class="workspace-heading"><div><div class="eyebrow">PRINTAPLAB DESIGN STUDIO</div><h1>Creá tu <span>llavero 3D.</span></h1><p>Cargá una imagen, personalizá la pieza y descargá el archivo para imprimir.</p></div><span class="workspace-number">01 / 3D</span></div><ol class="beginner-steps" aria-label="Pasos para crear tu llavero"><li><b>1. Cargá una imagen</b><span>O probá el ejemplo para aprender.</span></li><li><b>2. Ajustá tu llavero</b><span>Elegí tamaño, caras, colores y enganche.</span></li><li><b>3. Descargá el modelo</b><span>Abrí el 3MF en Bambu Studio y revisá la impresión.</span></li></ol><div class="toolbar"><div class="row"><button id="two">2D · Diseño</button><button class="primary" id="three">3D · Modelo</button></div><div class="view-actions"><button class="upload-button" id="uploadShortcut">↑ Cargar imagen</button><div class="zoom-controls"><button aria-label="Alejar vista" id="zoomOut">−</button><span id="zoomValue">135%</span><button aria-label="Acercar vista" id="zoomIn">+</button></div><button aria-label="Restablecer ángulo de vista" id="resetView" title="Restablecer ángulo de vista">↺</button></div><button class="primary download-main" id="mf" title="Incluye una miniatura de la imagen original dentro del 3MF">↓ Descargar 3MF multicolor</button><div class="png-guide"><span>💡 Subí un PNG transparente con hasta 4 colores sólidos, contando el negro de los contornos gruesos.</span><button type="button" id="openImagePrompts">Ayuda para crear una imagen</button></div>
+</style><style>#qrDialog{width:min(620px,calc(100% - 24px));max-height:88vh;overflow:auto;padding:22px;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink)}#qrDialog::backdrop{background:#000b}#qrDialog p{line-height:1.55}#qrDialog button{margin-top:10px}#qrPreview{display:block;width:240px;max-width:100%;height:auto;margin:16px auto;background:white;image-rendering:pixelated}#qrEncoded{overflow-wrap:anywhere}#qrStatus{color:var(--accent);line-height:1.5}</style><link rel="stylesheet" href="./access.css"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta name="description" content="Taller Printaplab de llaveros 3D multicolor. Ingresá con tu cuenta de Android y exportá 3MF y STL."></head><body><section id="accessGate" aria-label="Acceso a Printaplab"><div class="access-shell"><div class="access-intro"><div class="access-mark">PRINTAPLAB · 3D STORE</div><h1>Tu próxima idea.<br><span>Lista para imprimir.</span></h1><p>Convertí tus imágenes en llaveros 3D multicolor. El mismo taller, ahora también desde tu navegador.</p><div class="access-features"><span>3MF multicolor</span><span>STL por color</span><span>Procesamiento local</span></div></div><div class="access-card"><h2>Entrá a tu taller.</h2><p>Tu cuenta de Android también funciona acá.</p><form id="accessForm"><div id="credentials"><label for="accessEmail">Correo electrónico</label><input id="accessEmail" type="email" autocomplete="username" placeholder="vos@ejemplo.com" required><label for="accessPassword">Contraseña</label><input id="accessPassword" type="password" autocomplete="current-password" placeholder="Tu contraseña" required><button id="accessLogin" class="primary" type="submit">Ingresar al taller →</button><button id="accessRegister" class="access-secondary" type="button">Crear una cuenta</button><p class="access-small" style="padding:12px;border:1px solid #475569;border-radius:10px"><strong>¿Ya creaste tu cuenta?</strong><br>Pedí la aprobación por mensaje directo a <a href="https://www.instagram.com/printaplab3dstore/" target="_blank" rel="noopener noreferrer">@printaplab3dstore en Instagram</a>. Indicá el correo que usaste para registrarte.</p></div><p id="accessIdentity"></p><p id="accessMessage" class="access-message" role="status">Cargando el acceso… Si no avanza, comprobá tu conexión y que JavaScript esté habilitado.</p><button id="accessRetry" class="primary" type="button" hidden>Volver a comprobar acceso</button><button id="accessSignout" class="access-secondary" type="button" hidden>Cerrar sesión</button></form><p class="access-small">Los diseños y archivos se procesan en este dispositivo; no se sincronizan entre equipos.<br><a href="/">Volver a Printaplab</a></p></div></div></section><div id="studio" inert><div class="session-bar"><a href="/">← Printaplab</a><span id="sessionEmail"></span><button id="sessionSignout" type="button">Cerrar sesión</button></div><header><div aria-hidden="true" class="brandmark"><svg fill="none" height="30" viewbox="0 0 36 36" width="30"><path d="M18 3 32 11v14l-14 8L4 25V11L18 3Z" stroke="currentColor" stroke-width="2"></path><path d="m4 11 14 8 14-8M18 19v14M11 7l14 8v8" stroke="currentColor" stroke-width="2"></path></svg></div><div class="brandword">PRINTAP<span>LAB</span><small>3D STORE / CREATIVE TOOLS</small></div><div class="header-divider"></div><div class="product-name">Taller de llaveros y posavasos<small>De tu diseño a una pieza real.</small></div><div class="header-end"><span class="local-dot"></span> Procesamiento local <span class="version-pill">WEB · 1.6</span></div></header><div class="layout"><main><div class="workspace-heading"><div><div class="eyebrow">PRINTAPLAB DESIGN STUDIO</div><h1>Creá tu <span>llavero 3D.</span></h1><p>Cargá una imagen, personalizá la pieza y descargá el archivo para imprimir.</p></div><span class="workspace-number">01 / 3D</span></div><ol class="beginner-steps" aria-label="Pasos para crear tu llavero"><li><b>1. Cargá una imagen</b><span>O probá el ejemplo para aprender.</span></li><li><b>2. Ajustá tu llavero</b><span>Elegí tamaño, caras, colores y enganche.</span></li><li><b>3. Descargá el modelo</b><span>Abrí el 3MF en Bambu Studio y revisá la impresión.</span></li></ol><div class="toolbar"><div class="row"><button id="two">2D · Diseño</button><button class="primary" id="three">3D · Modelo</button></div><div class="view-actions"><button class="upload-button" id="uploadShortcut">↑ Cargar imagen</button><div class="zoom-controls"><button aria-label="Alejar vista" id="zoomOut">−</button><span id="zoomValue">135%</span><button aria-label="Acercar vista" id="zoomIn">+</button></div><button aria-label="Restablecer ángulo de vista" id="resetView" title="Restablecer ángulo de vista">↺</button></div><button class="primary download-main" id="mf" title="Incluye una miniatura de la imagen original dentro del 3MF">↓ Descargar 3MF multicolor</button><div class="png-guide"><span>💡 Subí un PNG transparente con hasta 4 colores sólidos, contando el negro de los contornos gruesos.</span><button type="button" id="openImagePrompts">Ayuda para crear una imagen</button><button type="button" id="openQr">Crear código QR</button></div>
 <dialog id="imagePrompts" aria-labelledby="imagePromptsTitle"><button type="button" id="closeImagePrompts">Volver al taller</button><h2 id="imagePromptsTitle">Prepará tu imagen para Llaveros Web</h2><p>Pegá el prompt en ChatGPT o Gemini. Para convertir una referencia, adjuntá la foto o el dibujo en el mismo mensaje.</p>
 <section><h3>Crear desde una idea</h3><p id="imagePrompt0">Creá una ilustración 2D para un llavero a partir de esta idea: [ESCRIBÍ TU IDEA ACÁ]. Mostrá el diseño de frente, completo y centrado, con una silueta compacta y reconocible. Usá solo los colores sólidos que el motivo necesite, con un máximo de cuatro en total, contando el negro de los contornos. Si alcanza con dos o tres, mantené esa paleta. Dibujá líneas negras gruesas y continuas, con regiones cerradas y rellenos uniformes. Simplificá los detalles diminutos y evitá elementos sueltos. Dejá el fondo transparente y evitá sombras, degradados, brillos, texturas y efectos 3D. Entregá la imagen en PNG con transparencia.</p><button type="button" data-copy-prompt="imagePrompt0">Copiar prompt</button></section>
 <section><h3>Convertir una imagen de referencia</h3><p id="imagePrompt1">Redibujá la imagen adjunta como una ilustración 2D para un llavero. Aislá el motivo principal y seguí de cerca la referencia: conservá la silueta, la postura, el ángulo, las proporciones y los rasgos reconocibles sin exagerarlos. Identificá los colores propios del motivo. Unificá en un solo relleno plano las variaciones de un mismo color causadas por la luz, las sombras, los brillos o la textura. Si una superficie es de un solo color, usá ese mismo relleno en toda su extensión. Usá solo los colores sólidos necesarios, con un máximo de cuatro en total, contando el negro de los contornos. Si basta un color de relleno más negro, usá esos dos. Si el usuario indica una paleta, respetala. Si hay más de cuatro colores esenciales, agrupá los más parecidos. Dibujá líneas negras gruesas y continuas, con regiones cerradas y rellenos uniformes. Simplificá los detalles diminutos y eliminá los elementos sueltos. Mostrá el diseño completo y centrado, sin sombras, degradados, texturas ni brillos. Entregá la ilustración como PNG con fondo transparente.</p><button type="button" data-copy-prompt="imagePrompt1">Copiar prompt</button></section>
-<p>Subí el PNG y verificá que el taller detecte los colores del diseño, hasta cuatro en total, antes de exportar el 3MF.</p><p id="imagePromptStatus" role="status"></p></dialog></div><div aria-label="Vista previa del llavero" class="stage"><span class="stage-label">VISTA PREVIA · FRENTE</span><span class="stage-hint">Arrastrá para girar · Tocá un color para editar</span><canvas height="800" id="view" width="1100"></canvas></div><div class="status" id="status" role="status">Cargá una imagen o probá el ejemplo para empezar.</div><p class="note" id="dims"></p><details class="quick-help"><summary>Cómo usarlo</summary><p>1. Cargá tu imagen y convertí los colores. 2. Cambiá cada color y su relieve. 3. Ajustá base, borde y enganche. 4. Descargá el modelo y revisalo en tu laminador.</p><p>Arrastrá en la vista 3D para girar. Tocá una región en 2D o 3D para editar su color y relieve. El fondo se elimina desde el borde del contenido, conservando blancos interiores. Al cambiar la tolerancia se recalcula automáticamente; empezá con 35 y subila si quedan restos. Si el fondo queda, ajustá la tolerancia o usá un PNG transparente.</p></details></main><aside class="right fluid-inspector"><div class="panel-heading"><div><span class="eyebrow">AJUSTES DEL LLAVERO</span><h2>Personalizá tu llavero.</h2></div><span class="panel-live"><i></i> EN VIVO</span></div><div class="common-settings"><label for="productMode">Qué querés crear</label><select id="productMode"><option value="keychain">Llavero</option><option value="coaster">Posavasos · 90 mm</option></select><p class="note" id="productHelp">Elegí Posavasos para aplicar los ajustes del último lote.</p><div class="common-title">DIMENSIONES DE LA PIEZA</div><div class="common-row"><div><label for="width">Ancho del diseño (mm)</label><input id="width" max="250" min="15" step="1" type="number" value="60"/></div><div><label for="base">Espesor de base / centro (mm)</label><input id="base" max="10" min="0.4" step="0.2" type="number" value="2"/></div></div></div><div class="face-settings"><h2>Caras y distribución del color</h2><label><input id="differentBack" type="checkbox"/> Usar una imagen diferente en el reverso</label><div id="backImageOptions" hidden><label for="backFile">Imagen del reverso</label><input id="backFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"/><button id="clearBack" type="button">Quitar imagen del reverso</button><p class="note" id="backImageStatus">Cargá el frente y una segunda imagen para el reverso.</p><p class="note">El frente define el contorno. El reverso se centra conservando sus proporciones y se recorta a esa misma pieza; usá PNG con transparencia. El frente conserva sus colores. El reverso usa la misma paleta y puede completar los espacios libres hasta cuatro colores en total, incluido el centro. Para conservar también sus tonos exactos, prepará ambas imágenes con la misma paleta. Se usan tres capas de color por cara y un centro sólido de un solo color. La lectura del reverso se corrige automáticamente, sin espejar tu archivo.</p></div><label><input id="doubleSided" type="checkbox"/> Imagen en ambas caras</label><div id="doubleOptions" hidden><label for="colorFill">Cómo distribuir los colores</label><select id="colorFill" disabled><option value="skins" selected>Caras finas · Centro de un solo color</option><option value="through">Color en todo el espesor</option></select><p class="note" id="colorFillHelp">Activá ambas caras para elegir. Caras finas concentra los cambios de filamento abajo y arriba; el centro usa el color de base.</p><label for="skinLayers">Capas de color en cada cara</label><select id="skinLayers" disabled><option value="2">2 capas · Más fino</option><option value="3" selected>3 capas · Sugerido</option><option value="4">4 capas · Más cobertura</option><option value="5">5 capas · Más cobertura</option></select><p class="note" id="skinThickness">Las caras finas son planas y tienen el mismo espesor. Ajustá el color del centro en Colores → Color del centro, borde y capas.</p><label><input id="mirrorBack" type="checkbox" disabled autocomplete="off"/> Reverso en espejo</label><p class="note">Desactivado: misma posición XY; la imagen se ve invertida naturalmente desde atrás. Activado: refleja la geometría del reverso. Con color en todo el espesor puede generar voladizos y requerir soportes.</p></div></div><button id="flipFace" type="button" aria-pressed="false">Ver reverso</button><div id="modeOptions"><label for="mode">Relieve y orientación · Color completo</label><select id="mode"><option value="relief">Boca arriba · Colores con relieve</option><option value="flat">Boca abajo · Cara de color contra la cama</option></select><p class="note">Boca arriba conserva las alturas de cada color. Boca abajo iguala las alturas para dejar una cara plana contra la cama de impresión. Con caras finas, ambos lados son planos y este ajuste no se usa. Con color en todo el espesor sin espejo, la cara inferior es plana. La vista previa muestra la cara elegida para editarla.</p></div><div aria-label="Ajustes del llavero" class="editor-tabs" role="tablist"><button aria-controls="panel-image" aria-selected="true" data-panel="image" id="tab-image" role="tab" tabindex="0" type="button"><small>01</small>Imagen</button><button aria-controls="panel-colors" aria-selected="false" data-panel="colors" id="tab-colors" role="tab" tabindex="-1" type="button"><small>02</small>Colores</button><button aria-controls="panel-attachment" aria-selected="false" data-panel="attachment" id="tab-attachment" role="tab" tabindex="-1" type="button"><small>03</small>Enganche</button></div><section aria-labelledby="tab-image" class="tab-panel" id="panel-image" role="tabpanel"><div class="group-content"><label for="file">1. Elegí tu imagen</label><input accept="image/png,image/jpeg,image/webp,image/svg+xml" id="file" type="file"/><p class="note">PNG, JPG, WebP o SVG. Mejor resultado con colores planos y contornos gruesos.</p><button id="demo">✦ Explorar con un ejemplo</button><p class="note">Al cargar una imagen se convierte automáticamente. Empezá con los ajustes sugeridos; podés cambiarlos después.</p><label for="count">Cantidad máxima de colores</label><select id="count"><option>4</option><option>8</option><option>12</option><option>2</option><option>3</option></select><label for="contourSmooth">Limpieza de líneas al exportar</label><select id="contourSmooth"><option value="0">Original · Bordes de píxel</option><option value="2">Suave · Conserva más las esquinas</option><option value="5" selected>Limpio · Suavizado de contornos</option></select><p class="note">Suaviza los escalones de los bordes en 3MF y STL, usando la misma unión para los colores vecinos. La vista previa conserva la imagen de referencia. No reconstruye detalles ausentes de la imagen original.</p><label for="res">Calidad de conversión y exportación</label><select id="res"><option value="160">Rápida · 160</option><option value="260">Equilibrada · 260</option><option selected="" value="400">Máxima disponible · 400</option></select><p class="note">La calidad máxima está seleccionada por defecto. Después de cambiarla, pulsá Convertir mi imagen para aplicarla al modelo y a las descargas. Una imagen original nítida conserva mejor los detalles.</p><details class="image-advanced"><summary>Ajustes avanzados de imagen</summary><div><label><input id="remove" type="checkbox" autocomplete="off"/> Quitar fondo conectado al borde</label><label>Tolerancia de fondo <span id="tolValue">35</span></label><input id="tol" max="150" min="0" type="range" value="35"/><label><input checked="" id="cleanSpeckles" type="checkbox"/> Limpiar puntitos aislados de color</label><label for="speckSize">Máximo de píxeles por microisla</label><select id="speckSize"><option value="2">Suave · 2 píxeles</option><option selected="" value="4">Normal · 4 píxeles</option><option value="8">Fuerte · 8 píxeles</option><option value="16">Muy fuerte · 16 píxeles</option></select><p class="note">Reasigna microislas al color vecino. Conserva la silueta. Desactivá la limpieza para conservar detalles diminutos; se aplica al volver a convertir.</p></div></details><button class="primary" id="convert" style="width:100%;margin-top:14px">Volver a convertir la imagen →</button></div></section><section aria-labelledby="tab-colors" class="tab-panel" hidden="" id="panel-colors" role="tabpanel"><div id="edit" style="display:none;background:#1a1e29;padding:14px;margin-top:12px;border:1px solid #bdff62;border-radius:12px"><b id="editName"></b><div class="row"><label>Relieve (mm)<input id="editHeight" max="10" min="0.2" step="0.2" type="number"/></label><label>Color<input id="editColor" type="color"/></label><button id="closeEdit">Cerrar</button></div><label>Reasignar todas las zonas de este color a</label><div class="row"><select id="assignTo"></select><button id="assign">Reasignar</button></div><small>Aplica a todas las regiones del mismo color.</small></div><div><div class="inspector-label">PERSONALIZÁ TU PIEZA</div><h2>Colores y relieve</h2><small>Cambiá los tonos acá. Las alturas se usan con color en todo el espesor; caras finas mantiene ambos lados planos y del mismo espesor.</small><div id="palette"></div><button id="addColor" style="width:100%;margin-top:12px">+ Agregar color</button><p class="note">Para quitar un color, elegí primero a cuál reasignar sus regiones. Para usar uno nuevo, tocá el dibujo y elegí el color de destino.</p><p class="note">En modo plano todos los colores tienen el mismo espesor y el dibujo queda boca abajo. El blanco cuenta como un color.</p><details class="control-group"><summary><h2>Color del centro, borde y capas</h2></summary><div class="group-content"><label for="layer">Altura de capa de referencia (mm)</label><select id="layer"><option>0.2</option><option>0.16</option><option>0.12</option><option>0.28</option></select><p class="note">Las alturas se redondean a capas completas. Configurá también esta altura en tu laminador.</p><label for="border">Borde exterior (mm)</label><input id="border" max="6" min="0" step="0.2" type="number" value="0"/><label for="baseSlot">Color de base, centro y borde</label><select id="baseSlot"><option value="auto">El color más oscuro del dibujo</option><option value="custom">Un color independiente</option></select><label for="baseColor">Elegí el color</label><input id="baseColor" type="color" value="#151515"/></div></details><details><summary>Alcance de esta versión</summary><p>Conversión por cuadrícula: el contorno puede mostrar pequeños escalones según la resolución. No es vectorización Bézier. Las islas sueltas necesitan una base que las conecte; revisá detalles finos y la unión del enganche antes de imprimir.</p><p>STL no conserva colores. Una imagen con mucho detalle puede generar archivos grandes. Todo funciona sin conexión y las imágenes no se suben a un servidor.</p></details></div></section><section aria-labelledby="tab-attachment" class="tab-panel" hidden="" id="panel-attachment" role="tabpanel"><div class="group-content"><label><input checked="" id="eye" type="checkbox"/> Agregar enganche o agujero</label><label for="attachType">Tipo de enganche</label><select id="attachType"><option value="hook">Ojal redondo exterior</option><option value="ornament">Ojal corto centrado · Adorno</option><option value="bookmark">Pestaña alargada con agujero</option><option value="hole">Agujero dentro del diseño</option></select><p class="note" id="attachHelp">Ojal redondo unido a la silueta.</p><label id="tabLabel">Largo de la pestaña (mm)<input id="tabLength" max="30" min="3" step="1" type="number" value="8"/></label><label><input checked="" id="eyeFull" type="checkbox"/> Ojal a la altura total del llavero</label><p class="note">Desactivado: el ojal tiene solo el espesor de la base. El borde exterior puede quedar en 0 mm para seguir la silueta.</p><label for="pos">Posición</label><select id="pos"><option value="top">Arriba</option><option value="left">Izquierda</option><option value="right">Derecha</option><option value="bottom">Abajo</option></select><div class="row"><div><label for="hole">Diámetro del agujero (mm)</label><input id="hole" max="12" min="2" step="0.5" type="number" value="4"/></div><div><label for="wall">Pared alrededor (mm)</label><input id="wall" max="6" min="1" step="0.5" type="number" value="2"/></div></div></div></section><button class="export-options" id="openExport">3. Otras descargas y ajustes ↗</button><p class="panel-footnote">Antes de laminar, elegí el perfil oficial de tu Bambu Lab. El aviso completo está en Opciones.<br><br>Los cambios de color se ven al instante.<br/>La resolución de exportación se mantiene.</p></aside></div>
+<p>Subí el PNG y verificá que el taller detecte los colores del diseño, hasta cuatro en total, antes de exportar el 3MF.</p><p id="imagePromptStatus" role="status"></p></dialog><dialog id="qrDialog" aria-labelledby="qrTitle"><button type="button" id="closeQr">Volver al taller</button><h2 id="qrTitle">Crear código QR</h2><p>Pegá un enlace y generá un QR sin conexión. No se abre ni se envía el enlace a ningún servicio.</p><label for="qrUrl">Enlace de tu página</label><input id="qrUrl" type="url" inputmode="url" autocomplete="off" placeholder="https://tupagina.com" style="width:100%"/><button id="qrGenerate" class="primary" type="button">Generar QR</button><div id="qrResult" hidden><canvas id="qrPreview" aria-label="Vista previa del código QR"></canvas><p id="qrEncoded" class="note"></p><p class="note">Destino fijo: reverso del llavero o posavasos. El frente se conserva.</p><div class="row"><button id="qrApply" class="primary" type="button">Usar QR en el reverso</button><button id="qrDownload" type="button">Guardar PNG</button></div></div><p id="qrStatus" role="status" aria-live="polite"></p><button type="button" id="qrFit" hidden>Aumentar la pieza y aplicar QR</button><p class="note">Toma los dos tonos de mayor contraste de la imagen frontal y conserva un margen claro de cuatro módulos. No suma colores. Módulos cuadrados de al menos 1 mm, sin suavizado. Si el centro tenía un quinto color, reutiliza el tono oscuro del frente. La app busca un área libre dentro del contorno; si queda demasiado pequeño, usá una pieza mayor o un enlace más corto. Probá la lectura con tu teléfono antes de imprimir y también sobre la pieza terminada.</p></dialog></div><div aria-label="Vista previa del llavero" class="stage"><span class="stage-label">VISTA PREVIA · FRENTE</span><span class="stage-hint">Arrastrá para girar · Tocá un color para editar</span><canvas height="800" id="view" width="1100"></canvas></div><div class="status" id="status" role="status">Cargá una imagen o probá el ejemplo para empezar.</div><p class="note" id="dims"></p><details class="quick-help"><summary>Cómo usarlo</summary><p>1. Cargá tu imagen y convertí los colores. 2. Cambiá cada color y su relieve. 3. Ajustá base, borde y enganche. 4. Descargá el modelo y revisalo en tu laminador.</p><p>Arrastrá en la vista 3D para girar. Tocá una región en 2D o 3D para editar su color y relieve. El fondo se elimina desde el borde del contenido, conservando blancos interiores. Al cambiar la tolerancia se recalcula automáticamente; empezá con 35 y subila si quedan restos. Si el fondo queda, ajustá la tolerancia o usá un PNG transparente.</p></details></main><aside class="right fluid-inspector"><div class="panel-heading"><div><span class="eyebrow">AJUSTES DEL LLAVERO</span><h2>Personalizá tu llavero.</h2></div><span class="panel-live"><i></i> EN VIVO</span></div><div class="common-settings"><label for="productMode">Qué querés crear</label><select id="productMode"><option value="keychain">Llavero</option><option value="coaster">Posavasos · 90 mm</option></select><p class="note" id="productHelp">Elegí Posavasos para aplicar los ajustes del último lote.</p><div class="common-title">DIMENSIONES DE LA PIEZA</div><div class="common-row"><div><label for="width">Ancho del diseño (mm)</label><input id="width" max="250" min="15" step="1" type="number" value="60"/></div><div><label for="base">Espesor de base / centro (mm)</label><input id="base" max="10" min="0.4" step="0.2" type="number" value="2"/></div></div></div><div class="face-settings"><h2>Caras y distribución del color</h2><label><input id="differentBack" type="checkbox"/> Usar una imagen diferente en el reverso</label><div id="backImageOptions" hidden><label for="backFile">Imagen del reverso</label><input id="backFile" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml"/><button id="clearBack" type="button">Quitar imagen del reverso</button><p class="note" id="backImageStatus">Cargá el frente y una segunda imagen para el reverso.</p><p class="note">El frente define el contorno. El reverso se centra conservando sus proporciones y se recorta a esa misma pieza; usá PNG con transparencia. El frente conserva sus colores. El reverso usa la misma paleta y puede completar los espacios libres hasta cuatro colores en total, incluido el centro. Para conservar también sus tonos exactos, prepará ambas imágenes con la misma paleta. Se usan tres capas de color por cara y un centro sólido de un solo color. La lectura del reverso se corrige automáticamente, sin espejar tu archivo.</p></div><label><input id="doubleSided" type="checkbox"/> Imagen en ambas caras</label><div id="doubleOptions" hidden><label for="colorFill">Cómo distribuir los colores</label><select id="colorFill" disabled><option value="skins" selected>Caras finas · Centro de un solo color</option><option value="through">Color en todo el espesor</option></select><p class="note" id="colorFillHelp">Activá ambas caras para elegir. Caras finas concentra los cambios de filamento abajo y arriba; el centro usa el color de base.</p><label for="skinLayers">Capas de color en cada cara</label><select id="skinLayers" disabled><option value="2">2 capas · Más fino</option><option value="3" selected>3 capas · Sugerido</option><option value="4">4 capas · Más cobertura</option><option value="5">5 capas · Más cobertura</option></select><p class="note" id="skinThickness">Las caras finas son planas y tienen el mismo espesor. Ajustá el color del centro en Colores → Color del centro, borde y capas.</p><label><input id="mirrorBack" type="checkbox" disabled autocomplete="off"/> Reverso en espejo</label><p class="note">Desactivado: misma posición XY; la imagen se ve invertida naturalmente desde atrás. Activado: refleja la geometría del reverso. Con color en todo el espesor puede generar voladizos y requerir soportes.</p></div></div><button id="flipFace" type="button" aria-pressed="false">Ver reverso</button><div id="modeOptions"><label for="mode">Relieve y orientación · Color completo</label><select id="mode"><option value="relief">Boca arriba · Colores con relieve</option><option value="flat">Boca abajo · Cara de color contra la cama</option></select><p class="note">Boca arriba conserva las alturas de cada color. Boca abajo iguala las alturas para dejar una cara plana contra la cama de impresión. Con caras finas, ambos lados son planos y este ajuste no se usa. Con color en todo el espesor sin espejo, la cara inferior es plana. La vista previa muestra la cara elegida para editarla.</p></div><div aria-label="Ajustes del llavero" class="editor-tabs" role="tablist"><button aria-controls="panel-image" aria-selected="true" data-panel="image" id="tab-image" role="tab" tabindex="0" type="button"><small>01</small>Imagen</button><button aria-controls="panel-colors" aria-selected="false" data-panel="colors" id="tab-colors" role="tab" tabindex="-1" type="button"><small>02</small>Colores</button><button aria-controls="panel-attachment" aria-selected="false" data-panel="attachment" id="tab-attachment" role="tab" tabindex="-1" type="button"><small>03</small>Enganche</button></div><section aria-labelledby="tab-image" class="tab-panel" id="panel-image" role="tabpanel"><div class="group-content"><label for="file">1. Elegí tu imagen</label><input accept="image/png,image/jpeg,image/webp,image/svg+xml" id="file" type="file"/><p class="note">PNG, JPG, WebP o SVG. Mejor resultado con colores planos y contornos gruesos.</p><button id="demo">✦ Explorar con un ejemplo</button><p class="note">Al cargar una imagen se convierte automáticamente. Empezá con los ajustes sugeridos; podés cambiarlos después.</p><label for="count">Cantidad máxima de colores</label><select id="count"><option>4</option><option>8</option><option>12</option><option>2</option><option>3</option></select><label for="contourSmooth">Limpieza de líneas al exportar</label><select id="contourSmooth"><option value="0">Original · Bordes de píxel</option><option value="2">Suave · Conserva más las esquinas</option><option value="5" selected>Limpio · Suavizado de contornos</option></select><p class="note">Suaviza los escalones de los bordes en 3MF y STL, usando la misma unión para los colores vecinos. La vista previa conserva la imagen de referencia. No reconstruye detalles ausentes de la imagen original.</p><label for="res">Calidad de conversión y exportación</label><select id="res"><option value="160">Rápida · 160</option><option value="260">Equilibrada · 260</option><option selected="" value="400">Máxima disponible · 400</option></select><p class="note">La calidad máxima está seleccionada por defecto. Después de cambiarla, pulsá Convertir mi imagen para aplicarla al modelo y a las descargas. Una imagen original nítida conserva mejor los detalles.</p><details class="image-advanced"><summary>Ajustes avanzados de imagen</summary><div><label><input id="remove" type="checkbox" autocomplete="off"/> Quitar fondo conectado al borde</label><label>Tolerancia de fondo <span id="tolValue">35</span></label><input id="tol" max="150" min="0" type="range" value="35"/><label><input checked="" id="cleanSpeckles" type="checkbox"/> Limpiar puntitos aislados de color</label><label for="speckSize">Máximo de píxeles por microisla</label><select id="speckSize"><option value="2">Suave · 2 píxeles</option><option selected="" value="4">Normal · 4 píxeles</option><option value="8">Fuerte · 8 píxeles</option><option value="16">Muy fuerte · 16 píxeles</option></select><p class="note">Reasigna microislas al color vecino. Conserva la silueta. Desactivá la limpieza para conservar detalles diminutos; se aplica al volver a convertir.</p></div></details><button class="primary" id="convert" style="width:100%;margin-top:14px">Volver a convertir la imagen →</button></div></section><section aria-labelledby="tab-colors" class="tab-panel" hidden="" id="panel-colors" role="tabpanel"><div id="edit" style="display:none;background:#1a1e29;padding:14px;margin-top:12px;border:1px solid #bdff62;border-radius:12px"><b id="editName"></b><div class="row"><label>Relieve (mm)<input id="editHeight" max="10" min="0.2" step="0.2" type="number"/></label><label>Color<input id="editColor" type="color"/></label><button id="closeEdit">Cerrar</button></div><label>Reasignar todas las zonas de este color a</label><div class="row"><select id="assignTo"></select><button id="assign">Reasignar</button></div><small>Aplica a todas las regiones del mismo color.</small></div><div><div class="inspector-label">PERSONALIZÁ TU PIEZA</div><h2>Colores y relieve</h2><small>Cambiá los tonos acá. Las alturas se usan con color en todo el espesor; caras finas mantiene ambos lados planos y del mismo espesor.</small><div id="palette"></div><button id="addColor" style="width:100%;margin-top:12px">+ Agregar color</button><p class="note">Para quitar un color, elegí primero a cuál reasignar sus regiones. Para usar uno nuevo, tocá el dibujo y elegí el color de destino.</p><p class="note">En modo plano todos los colores tienen el mismo espesor y el dibujo queda boca abajo. El blanco cuenta como un color.</p><details class="control-group"><summary><h2>Color del centro, borde y capas</h2></summary><div class="group-content"><label for="layer">Altura de capa de referencia (mm)</label><select id="layer"><option>0.2</option><option>0.16</option><option>0.12</option><option>0.28</option></select><p class="note">Las alturas se redondean a capas completas. Configurá también esta altura en tu laminador.</p><label for="border">Borde exterior (mm)</label><input id="border" max="6" min="0" step="0.2" type="number" value="0"/><label for="baseSlot">Color de base, centro y borde</label><select id="baseSlot"><option value="auto">El color más oscuro del dibujo</option><option value="custom">Un color independiente</option></select><label for="baseColor">Elegí el color</label><input id="baseColor" type="color" value="#151515"/></div></details><details><summary>Alcance de esta versión</summary><p>Conversión por cuadrícula: el contorno puede mostrar pequeños escalones según la resolución. No es vectorización Bézier. Las islas sueltas necesitan una base que las conecte; revisá detalles finos y la unión del enganche antes de imprimir.</p><p>STL no conserva colores. Una imagen con mucho detalle puede generar archivos grandes. Todo funciona sin conexión y las imágenes no se suben a un servidor.</p></details></div></section><section aria-labelledby="tab-attachment" class="tab-panel" hidden="" id="panel-attachment" role="tabpanel"><div class="group-content"><label><input checked="" id="eye" type="checkbox"/> Agregar enganche o agujero</label><label for="attachType">Tipo de enganche</label><select id="attachType"><option value="hook">Ojal redondo exterior</option><option value="ornament">Ojal corto centrado · Adorno</option><option value="bookmark">Pestaña alargada con agujero</option><option value="hole">Agujero dentro del diseño</option></select><p class="note" id="attachHelp">Ojal redondo unido a la silueta.</p><label id="tabLabel">Largo de la pestaña (mm)<input id="tabLength" max="30" min="3" step="1" type="number" value="8"/></label><label><input checked="" id="eyeFull" type="checkbox"/> Ojal a la altura total del llavero</label><p class="note">Desactivado: el ojal tiene solo el espesor de la base. El borde exterior puede quedar en 0 mm para seguir la silueta.</p><label for="pos">Posición</label><select id="pos"><option value="top">Arriba</option><option value="left">Izquierda</option><option value="right">Derecha</option><option value="bottom">Abajo</option></select><div class="row"><div><label for="hole">Diámetro del agujero (mm)</label><input id="hole" max="12" min="2" step="0.5" type="number" value="4"/></div><div><label for="wall">Pared alrededor (mm)</label><input id="wall" max="6" min="1" step="0.5" type="number" value="2"/></div></div></div></section><button class="export-options" id="openExport">3. Otras descargas y ajustes ↗</button><p class="panel-footnote">Antes de laminar, elegí el perfil oficial de tu Bambu Lab. El aviso completo está en Opciones.<br><br>Los cambios de color se ven al instante.<br/>La resolución de exportación se mantiene.</p></aside></div>
 <dialog aria-labelledby="exportTitle" id="exportDialog"><div class="dialog-top"><h2 id="exportTitle">Prepará tu descarga</h2><button aria-label="Cerrar opciones de exportación" id="closeExport">✕</button></div><div class="section"><h2>Exportar tu llavero</h2><details><summary>Ubicación del modelo en la placa</summary><label><input id="centerExport" type="checkbox" checked/> Centrar en la placa al exportar</label><label for="bedSize">Placa para centrar el 3MF</label><select id="bedSize"><option value="256" selected>A1 / P1 / X1 · 256 × 256 mm</option><option value="180">A1 mini · 180 × 180 mm</option></select><p class="note">Si cargás un proyecto como plantilla, se usa su área de impresión cuando está definida.</p></details><div id="exportPalette" style="margin-bottom:16px"></div><details><summary>Usar un proyecto de Bambu como base</summary><p class="note">Opcional: cargá un 3MF guardado por tu Bambu Studio. Se conservan sus ajustes de impresora y se reemplazan la geometría y la paleta por las de este llavero.</p><input accept=".3mf" id="templateFile" type="file"/><p class="note" id="templateStatus">Sin plantilla. Exportación para Bambu Studio con torre de purga habilitada.</p></details><div id="profileNotice" role="note" style="background:#332810;border:1px solid #eab752;border-left:5px solid #eab752;border-radius:10px;padding:15px;margin:16px 0;color:#fff2cf;line-height:1.6"><strong style="display:block;margin-bottom:8px">3MF con torre de purga habilitada · Revisá el perfil</strong>La exportación incluye la torre de purga habilitada. Abrí el archivo como proyecto para cargar este ajuste. Después de abrir el 3MF en Bambu Studio, seleccioná el perfil oficial de tu impresora Bambu Lab y de su boquilla (por ejemplo, <strong>Bambu Lab A1 · 0,4 mm</strong>). Elegí también un perfil de proceso compatible.<br/><br/>El perfil que trae el archivo puede no coincidir con tu configuración. Para impresión multicolor, comprobá que la <strong>torre de purga / torre de cebado</strong> esté habilitada y aparezca al laminar. Revisá los filamentos y sus colores antes de imprimir.</div><p class="note">Usá el botón azul Descargar 3MF para conservar los colores. Elegí STL si solo necesitás la forma; PNG guarda una imagen de la vista actual.</p><p class="note">El 3MF incluye una miniatura de la imagen original dentro del archivo. Guardar una vista PNG aparte es opcional.</p><div class="exports"><button id="stl">STL único · Sin colores</button><button id="parts">STL separados por color (ZIP)</button><button id="png">Guardar vista PNG</button></div><p class="note">Abrí el 3MF con Archivo → Abrir proyecto, preferentemente en una ventana nueva. Elegí cargar la configuración y la paleta del archivo. La exportación sin plantilla está orientada a Bambu Lab A1 con boquilla de 0,4 mm; revisá tu perfil antes de laminar. Si elegís importar solo geometría, revisá los filamentos en Objetos → Partes. Revisá y seleccioná el perfil oficial de tu impresora antes de laminar.</p></div></dialog>
+<script>
+/*
+ * QR Code generator library (compiled from TypeScript)
+ *
+ * Copyright (c) Project Nayuki. (MIT License)
+ * https://www.nayuki.io/page/qr-code-generator-library
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ * - The above copyright notice and this permission notice shall be included in
+ *   all copies or substantial portions of the Software.
+ * - The Software is provided "as is", without warranty of any kind, express or
+ *   implied, including but not limited to the warranties of merchantability,
+ *   fitness for a particular purpose and noninfringement. In no event shall the
+ *   authors or copyright holders be liable for any claim, damages or other
+ *   liability, whether in an action of contract, tort or otherwise, arising from,
+ *   out of or in connection with the Software or the use or other dealings in the
+ *   Software.
+ */
+"use strict";
+var qrcodegen;
+(function (qrcodegen) {
+    /*---- QR Code symbol class ----*/
+    /*
+     * A QR Code symbol, which is a type of two-dimension barcode.
+     * Invented by Denso Wave and described in the ISO/IEC 18004 standard.
+     * Instances of this class represent an immutable square grid of dark and light cells.
+     * The class provides static factory functions to create a QR Code from text or binary data.
+     * The class covers the QR Code Model 2 specification, supporting all versions (sizes)
+     * from 1 to 40, all 4 error correction levels, and 4 character encoding modes.
+     *
+     * Ways to create a QR Code object:
+     * - High level: Take the payload data and call QrCode.encodeText() or QrCode.encodeBinary().
+     * - Mid level: Custom-make the list of segments and call QrCode.encodeSegments().
+     * - Low level: Custom-make the array of data codeword bytes (including
+     *   segment headers and final padding, excluding error correction codewords),
+     *   supply the appropriate version number, and call the QrCode() constructor.
+     * (Note that all ways require supplying the desired error correction level.)
+     */
+    class QrCode {
+        /*-- Constructor (low level) and fields --*/
+        // Creates a new QR Code with the given version number,
+        // error correction level, data codeword bytes, and mask number.
+        // This is a low-level API that most users should not use directly.
+        // A mid-level API is the encodeSegments() function.
+        constructor(
+        // The version number of this QR Code, which is between 1 and 40 (inclusive).
+        // This determines the size of this barcode.
+        version, 
+        // The error correction level used in this QR Code.
+        errorCorrectionLevel, dataCodewords, msk) {
+            this.version = version;
+            this.errorCorrectionLevel = errorCorrectionLevel;
+            // The modules of this QR Code (false = light, true = dark).
+            // Immutable after constructor finishes. Accessed through getModule().
+            this.modules = [];
+            // Indicates function modules that are not subjected to masking. Discarded when constructor finishes.
+            this.isFunction = [];
+            // Check scalar arguments
+            if (version < QrCode.MIN_VERSION || version > QrCode.MAX_VERSION)
+                throw new RangeError("Version value out of range");
+            if (msk < -1 || msk > 7)
+                throw new RangeError("Mask value out of range");
+            this.size = version * 4 + 17;
+            // Initialize both grids to be size*size arrays of Boolean false
+            let row = [];
+            for (let i = 0; i < this.size; i++)
+                row.push(false);
+            for (let i = 0; i < this.size; i++) {
+                this.modules.push(row.slice()); // Initially all light
+                this.isFunction.push(row.slice());
+            }
+            // Compute ECC, draw modules
+            this.drawFunctionPatterns();
+            const allCodewords = this.addEccAndInterleave(dataCodewords);
+            this.drawCodewords(allCodewords);
+            // Do masking
+            if (msk == -1) { // Automatically choose best mask
+                let minPenalty = 1000000000;
+                for (let i = 0; i < 8; i++) {
+                    this.applyMask(i);
+                    this.drawFormatBits(i);
+                    const penalty = this.getPenaltyScore();
+                    if (penalty < minPenalty) {
+                        msk = i;
+                        minPenalty = penalty;
+                    }
+                    this.applyMask(i); // Undoes the mask due to XOR
+                }
+            }
+            assert(0 <= msk && msk <= 7);
+            this.mask = msk;
+            this.applyMask(msk); // Apply the final choice of mask
+            this.drawFormatBits(msk); // Overwrite old format bits
+            this.isFunction = [];
+        }
+        /*-- Static factory functions (high level) --*/
+        // Returns a QR Code representing the given Unicode text string at the given error correction level.
+        // As a conservative upper bound, this function is guaranteed to succeed for strings that have 738 or fewer
+        // Unicode code points (not UTF-16 code units) if the low error correction level is used. The smallest possible
+        // QR Code version is automatically chosen for the output. The ECC level of the result may be higher than the
+        // ecl argument if it can be done without increasing the version.
+        static encodeText(text, ecl) {
+            const segs = qrcodegen.QrSegment.makeSegments(text);
+            return QrCode.encodeSegments(segs, ecl);
+        }
+        // Returns a QR Code representing the given binary data at the given error correction level.
+        // This function always encodes using the binary segment mode, not any text mode. The maximum number of
+        // bytes allowed is 2953. The smallest possible QR Code version is automatically chosen for the output.
+        // The ECC level of the result may be higher than the ecl argument if it can be done without increasing the version.
+        static encodeBinary(data, ecl) {
+            const seg = qrcodegen.QrSegment.makeBytes(data);
+            return QrCode.encodeSegments([seg], ecl);
+        }
+        /*-- Static factory functions (mid level) --*/
+        // Returns a QR Code representing the given segments with the given encoding parameters.
+        // The smallest possible QR Code version within the given range is automatically
+        // chosen for the output. Iff boostEcl is true, then the ECC level of the result
+        // may be higher than the ecl argument if it can be done without increasing the
+        // version. The mask number is either between 0 to 7 (inclusive) to force that
+        // mask, or -1 to automatically choose an appropriate mask (which may be slow).
+        // This function allows the user to create a custom sequence of segments that switches
+        // between modes (such as alphanumeric and byte) to encode text in less space.
+        // This is a mid-level API; the high-level API is encodeText() and encodeBinary().
+        static encodeSegments(segs, ecl, minVersion = 1, maxVersion = 40, mask = -1, boostEcl = true) {
+            if (!(QrCode.MIN_VERSION <= minVersion && minVersion <= maxVersion && maxVersion <= QrCode.MAX_VERSION)
+                || mask < -1 || mask > 7)
+                throw new RangeError("Invalid value");
+            // Find the minimal version number to use
+            let version;
+            let dataUsedBits;
+            for (version = minVersion;; version++) {
+                const dataCapacityBits = QrCode.getNumDataCodewords(version, ecl) * 8; // Number of data bits available
+                const usedBits = QrSegment.getTotalBits(segs, version);
+                if (usedBits <= dataCapacityBits) {
+                    dataUsedBits = usedBits;
+                    break; // This version number is found to be suitable
+                }
+                if (version >= maxVersion) // All versions in the range could not fit the given data
+                    throw new RangeError("Data too long");
+            }
+            // Increase the error correction level while the data still fits in the current version number
+            for (const newEcl of [QrCode.Ecc.MEDIUM, QrCode.Ecc.QUARTILE, QrCode.Ecc.HIGH]) { // From low to high
+                if (boostEcl && dataUsedBits <= QrCode.getNumDataCodewords(version, newEcl) * 8)
+                    ecl = newEcl;
+            }
+            // Concatenate all segments to create the data bit string
+            let bb = [];
+            for (const seg of segs) {
+                appendBits(seg.mode.modeBits, 4, bb);
+                appendBits(seg.numChars, seg.mode.numCharCountBits(version), bb);
+                for (const b of seg.getData())
+                    bb.push(b);
+            }
+            assert(bb.length == dataUsedBits);
+            // Add terminator and pad up to a byte if applicable
+            const dataCapacityBits = QrCode.getNumDataCodewords(version, ecl) * 8;
+            assert(bb.length <= dataCapacityBits);
+            appendBits(0, Math.min(4, dataCapacityBits - bb.length), bb);
+            appendBits(0, (8 - bb.length % 8) % 8, bb);
+            assert(bb.length % 8 == 0);
+            // Pad with alternating bytes until data capacity is reached
+            for (let padByte = 0xEC; bb.length < dataCapacityBits; padByte ^= 0xEC ^ 0x11)
+                appendBits(padByte, 8, bb);
+            // Pack bits into bytes in big endian
+            let dataCodewords = [];
+            while (dataCodewords.length * 8 < bb.length)
+                dataCodewords.push(0);
+            bb.forEach((b, i) => dataCodewords[i >>> 3] |= b << (7 - (i & 7)));
+            // Create the QR Code object
+            return new QrCode(version, ecl, dataCodewords, mask);
+        }
+        /*-- Accessor methods --*/
+        // Returns the color of the module (pixel) at the given coordinates, which is false
+        // for light or true for dark. The top left corner has the coordinates (x=0, y=0).
+        // If the given coordinates are out of bounds, then false (light) is returned.
+        getModule(x, y) {
+            return 0 <= x && x < this.size && 0 <= y && y < this.size && this.modules[y][x];
+        }
+        /*-- Private helper methods for constructor: Drawing function modules --*/
+        // Reads this object's version field, and draws and marks all function modules.
+        drawFunctionPatterns() {
+            // Draw horizontal and vertical timing patterns
+            for (let i = 0; i < this.size; i++) {
+                this.setFunctionModule(6, i, i % 2 == 0);
+                this.setFunctionModule(i, 6, i % 2 == 0);
+            }
+            // Draw 3 finder patterns (all corners except bottom right; overwrites some timing modules)
+            this.drawFinderPattern(3, 3);
+            this.drawFinderPattern(this.size - 4, 3);
+            this.drawFinderPattern(3, this.size - 4);
+            // Draw numerous alignment patterns
+            const alignPatPos = this.getAlignmentPatternPositions();
+            const numAlign = alignPatPos.length;
+            for (let i = 0; i < numAlign; i++) {
+                for (let j = 0; j < numAlign; j++) {
+                    // Don't draw on the three finder corners
+                    if (!(i == 0 && j == 0 || i == 0 && j == numAlign - 1 || i == numAlign - 1 && j == 0))
+                        this.drawAlignmentPattern(alignPatPos[i], alignPatPos[j]);
+                }
+            }
+            // Draw configuration data
+            this.drawFormatBits(0); // Dummy mask value; overwritten later in the constructor
+            this.drawVersion();
+        }
+        // Draws two copies of the format bits (with its own error correction code)
+        // based on the given mask and this object's error correction level field.
+        drawFormatBits(mask) {
+            // Calculate error correction code and pack bits
+            const data = this.errorCorrectionLevel.formatBits << 3 | mask; // errCorrLvl is uint2, mask is uint3
+            let rem = data;
+            for (let i = 0; i < 10; i++)
+                rem = (rem << 1) ^ ((rem >>> 9) * 0x537);
+            const bits = (data << 10 | rem) ^ 0x5412; // uint15
+            assert(bits >>> 15 == 0);
+            // Draw first copy
+            for (let i = 0; i <= 5; i++)
+                this.setFunctionModule(8, i, getBit(bits, i));
+            this.setFunctionModule(8, 7, getBit(bits, 6));
+            this.setFunctionModule(8, 8, getBit(bits, 7));
+            this.setFunctionModule(7, 8, getBit(bits, 8));
+            for (let i = 9; i < 15; i++)
+                this.setFunctionModule(14 - i, 8, getBit(bits, i));
+            // Draw second copy
+            for (let i = 0; i < 8; i++)
+                this.setFunctionModule(this.size - 1 - i, 8, getBit(bits, i));
+            for (let i = 8; i < 15; i++)
+                this.setFunctionModule(8, this.size - 15 + i, getBit(bits, i));
+            this.setFunctionModule(8, this.size - 8, true); // Always dark
+        }
+        // Draws two copies of the version bits (with its own error correction code),
+        // based on this object's version field, iff 7 <= version <= 40.
+        drawVersion() {
+            if (this.version < 7)
+                return;
+            // Calculate error correction code and pack bits
+            let rem = this.version; // version is uint6, in the range [7, 40]
+            for (let i = 0; i < 12; i++)
+                rem = (rem << 1) ^ ((rem >>> 11) * 0x1F25);
+            const bits = this.version << 12 | rem; // uint18
+            assert(bits >>> 18 == 0);
+            // Draw two copies
+            for (let i = 0; i < 18; i++) {
+                const color = getBit(bits, i);
+                const a = this.size - 11 + i % 3;
+                const b = Math.floor(i / 3);
+                this.setFunctionModule(a, b, color);
+                this.setFunctionModule(b, a, color);
+            }
+        }
+        // Draws a 9*9 finder pattern including the border separator,
+        // with the center module at (x, y). Modules can be out of bounds.
+        drawFinderPattern(x, y) {
+            for (let dy = -4; dy <= 4; dy++) {
+                for (let dx = -4; dx <= 4; dx++) {
+                    const dist = Math.max(Math.abs(dx), Math.abs(dy)); // Chebyshev/infinity norm
+                    const xx = x + dx;
+                    const yy = y + dy;
+                    if (0 <= xx && xx < this.size && 0 <= yy && yy < this.size)
+                        this.setFunctionModule(xx, yy, dist != 2 && dist != 4);
+                }
+            }
+        }
+        // Draws a 5*5 alignment pattern, with the center module
+        // at (x, y). All modules must be in bounds.
+        drawAlignmentPattern(x, y) {
+            for (let dy = -2; dy <= 2; dy++) {
+                for (let dx = -2; dx <= 2; dx++)
+                    this.setFunctionModule(x + dx, y + dy, Math.max(Math.abs(dx), Math.abs(dy)) != 1);
+            }
+        }
+        // Sets the color of a module and marks it as a function module.
+        // Only used by the constructor. Coordinates must be in bounds.
+        setFunctionModule(x, y, isDark) {
+            this.modules[y][x] = isDark;
+            this.isFunction[y][x] = true;
+        }
+        /*-- Private helper methods for constructor: Codewords and masking --*/
+        // Returns a new byte string representing the given data with the appropriate error correction
+        // codewords appended to it, based on this object's version and error correction level.
+        addEccAndInterleave(data) {
+            const ver = this.version;
+            const ecl = this.errorCorrectionLevel;
+            if (data.length != QrCode.getNumDataCodewords(ver, ecl))
+                throw new RangeError("Invalid argument");
+            // Calculate parameter numbers
+            const numBlocks = QrCode.NUM_ERROR_CORRECTION_BLOCKS[ecl.ordinal][ver];
+            const blockEccLen = QrCode.ECC_CODEWORDS_PER_BLOCK[ecl.ordinal][ver];
+            const rawCodewords = Math.floor(QrCode.getNumRawDataModules(ver) / 8);
+            const numShortBlocks = numBlocks - rawCodewords % numBlocks;
+            const shortBlockLen = Math.floor(rawCodewords / numBlocks);
+            // Split data into blocks and append ECC to each block
+            let blocks = [];
+            const rsDiv = QrCode.reedSolomonComputeDivisor(blockEccLen);
+            for (let i = 0, k = 0; i < numBlocks; i++) {
+                let dat = data.slice(k, k + shortBlockLen - blockEccLen + (i < numShortBlocks ? 0 : 1));
+                k += dat.length;
+                const ecc = QrCode.reedSolomonComputeRemainder(dat, rsDiv);
+                if (i < numShortBlocks)
+                    dat.push(0);
+                blocks.push(dat.concat(ecc));
+            }
+            // Interleave (not concatenate) the bytes from every block into a single sequence
+            let result = [];
+            for (let i = 0; i < blocks[0].length; i++) {
+                blocks.forEach((block, j) => {
+                    // Skip the padding byte in short blocks
+                    if (i != shortBlockLen - blockEccLen || j >= numShortBlocks)
+                        result.push(block[i]);
+                });
+            }
+            assert(result.length == rawCodewords);
+            return result;
+        }
+        // Draws the given sequence of 8-bit codewords (data and error correction) onto the entire
+        // data area of this QR Code. Function modules need to be marked off before this is called.
+        drawCodewords(data) {
+            if (data.length != Math.floor(QrCode.getNumRawDataModules(this.version) / 8))
+                throw new RangeError("Invalid argument");
+            let i = 0; // Bit index into the data
+            // Do the funny zigzag scan
+            for (let right = this.size - 1; right >= 1; right -= 2) { // Index of right column in each column pair
+                if (right == 6)
+                    right = 5;
+                for (let vert = 0; vert < this.size; vert++) { // Vertical counter
+                    for (let j = 0; j < 2; j++) {
+                        const x = right - j; // Actual x coordinate
+                        const upward = ((right + 1) & 2) == 0;
+                        const y = upward ? this.size - 1 - vert : vert; // Actual y coordinate
+                        if (!this.isFunction[y][x] && i < data.length * 8) {
+                            this.modules[y][x] = getBit(data[i >>> 3], 7 - (i & 7));
+                            i++;
+                        }
+                        // If this QR Code has any remainder bits (0 to 7), they were assigned as
+                        // 0/false/light by the constructor and are left unchanged by this method
+                    }
+                }
+            }
+            assert(i == data.length * 8);
+        }
+        // XORs the codeword modules in this QR Code with the given mask pattern.
+        // The function modules must be marked and the codeword bits must be drawn
+        // before masking. Due to the arithmetic of XOR, calling applyMask() with
+        // the same mask value a second time will undo the mask. A final well-formed
+        // QR Code needs exactly one (not zero, two, etc.) mask applied.
+        applyMask(mask) {
+            if (mask < 0 || mask > 7)
+                throw new RangeError("Mask value out of range");
+            for (let y = 0; y < this.size; y++) {
+                for (let x = 0; x < this.size; x++) {
+                    let invert;
+                    switch (mask) {
+                        case 0:
+                            invert = (x + y) % 2 == 0;
+                            break;
+                        case 1:
+                            invert = y % 2 == 0;
+                            break;
+                        case 2:
+                            invert = x % 3 == 0;
+                            break;
+                        case 3:
+                            invert = (x + y) % 3 == 0;
+                            break;
+                        case 4:
+                            invert = (Math.floor(x / 3) + Math.floor(y / 2)) % 2 == 0;
+                            break;
+                        case 5:
+                            invert = x * y % 2 + x * y % 3 == 0;
+                            break;
+                        case 6:
+                            invert = (x * y % 2 + x * y % 3) % 2 == 0;
+                            break;
+                        case 7:
+                            invert = ((x + y) % 2 + x * y % 3) % 2 == 0;
+                            break;
+                        default: throw new Error("Unreachable");
+                    }
+                    if (!this.isFunction[y][x] && invert)
+                        this.modules[y][x] = !this.modules[y][x];
+                }
+            }
+        }
+        // Calculates and returns the penalty score based on state of this QR Code's current modules.
+        // This is used by the automatic mask choice algorithm to find the mask pattern that yields the lowest score.
+        getPenaltyScore() {
+            let result = 0;
+            // Adjacent modules in row having same color, and finder-like patterns
+            for (let y = 0; y < this.size; y++) {
+                let runColor = false;
+                let runX = 0;
+                let runHistory = [0, 0, 0, 0, 0, 0, 0];
+                for (let x = 0; x < this.size; x++) {
+                    if (this.modules[y][x] == runColor) {
+                        runX++;
+                        if (runX == 5)
+                            result += QrCode.PENALTY_N1;
+                        else if (runX > 5)
+                            result++;
+                    }
+                    else {
+                        this.finderPenaltyAddHistory(runX, runHistory);
+                        if (!runColor)
+                            result += this.finderPenaltyCountPatterns(runHistory) * QrCode.PENALTY_N3;
+                        runColor = this.modules[y][x];
+                        runX = 1;
+                    }
+                }
+                result += this.finderPenaltyTerminateAndCount(runColor, runX, runHistory) * QrCode.PENALTY_N3;
+            }
+            // Adjacent modules in column having same color, and finder-like patterns
+            for (let x = 0; x < this.size; x++) {
+                let runColor = false;
+                let runY = 0;
+                let runHistory = [0, 0, 0, 0, 0, 0, 0];
+                for (let y = 0; y < this.size; y++) {
+                    if (this.modules[y][x] == runColor) {
+                        runY++;
+                        if (runY == 5)
+                            result += QrCode.PENALTY_N1;
+                        else if (runY > 5)
+                            result++;
+                    }
+                    else {
+                        this.finderPenaltyAddHistory(runY, runHistory);
+                        if (!runColor)
+                            result += this.finderPenaltyCountPatterns(runHistory) * QrCode.PENALTY_N3;
+                        runColor = this.modules[y][x];
+                        runY = 1;
+                    }
+                }
+                result += this.finderPenaltyTerminateAndCount(runColor, runY, runHistory) * QrCode.PENALTY_N3;
+            }
+            // 2*2 blocks of modules having same color
+            for (let y = 0; y < this.size - 1; y++) {
+                for (let x = 0; x < this.size - 1; x++) {
+                    const color = this.modules[y][x];
+                    if (color == this.modules[y][x + 1] &&
+                        color == this.modules[y + 1][x] &&
+                        color == this.modules[y + 1][x + 1])
+                        result += QrCode.PENALTY_N2;
+                }
+            }
+            // Balance of dark and light modules
+            let dark = 0;
+            for (const row of this.modules)
+                dark = row.reduce((sum, color) => sum + (color ? 1 : 0), dark);
+            const total = this.size * this.size; // Note that size is odd, so dark/total != 1/2
+            // Compute the smallest integer k >= 0 such that (45-5k)% <= dark/total <= (55+5k)%
+            const k = Math.ceil(Math.abs(dark * 20 - total * 10) / total) - 1;
+            assert(0 <= k && k <= 9);
+            result += k * QrCode.PENALTY_N4;
+            assert(0 <= result && result <= 2568888); // Non-tight upper bound based on default values of PENALTY_N1, ..., N4
+            return result;
+        }
+        /*-- Private helper functions --*/
+        // Returns an ascending list of positions of alignment patterns for this version number.
+        // Each position is in the range [0,177), and are used on both the x and y axes.
+        // This could be implemented as lookup table of 40 variable-length lists of integers.
+        getAlignmentPatternPositions() {
+            if (this.version == 1)
+                return [];
+            else {
+                const numAlign = Math.floor(this.version / 7) + 2;
+                const step = (this.version == 32) ? 26 :
+                    Math.ceil((this.version * 4 + 4) / (numAlign * 2 - 2)) * 2;
+                let result = [6];
+                for (let pos = this.size - 7; result.length < numAlign; pos -= step)
+                    result.splice(1, 0, pos);
+                return result;
+            }
+        }
+        // Returns the number of data bits that can be stored in a QR Code of the given version number, after
+        // all function modules are excluded. This includes remainder bits, so it might not be a multiple of 8.
+        // The result is in the range [208, 29648]. This could be implemented as a 40-entry lookup table.
+        static getNumRawDataModules(ver) {
+            if (ver < QrCode.MIN_VERSION || ver > QrCode.MAX_VERSION)
+                throw new RangeError("Version number out of range");
+            let result = (16 * ver + 128) * ver + 64;
+            if (ver >= 2) {
+                const numAlign = Math.floor(ver / 7) + 2;
+                result -= (25 * numAlign - 10) * numAlign - 55;
+                if (ver >= 7)
+                    result -= 36;
+            }
+            assert(208 <= result && result <= 29648);
+            return result;
+        }
+        // Returns the number of 8-bit data (i.e. not error correction) codewords contained in any
+        // QR Code of the given version number and error correction level, with remainder bits discarded.
+        // This stateless pure function could be implemented as a (40*4)-cell lookup table.
+        static getNumDataCodewords(ver, ecl) {
+            return Math.floor(QrCode.getNumRawDataModules(ver) / 8) -
+                QrCode.ECC_CODEWORDS_PER_BLOCK[ecl.ordinal][ver] *
+                    QrCode.NUM_ERROR_CORRECTION_BLOCKS[ecl.ordinal][ver];
+        }
+        // Returns a Reed-Solomon ECC generator polynomial for the given degree. This could be
+        // implemented as a lookup table over all possible parameter values, instead of as an algorithm.
+        static reedSolomonComputeDivisor(degree) {
+            if (degree < 1 || degree > 255)
+                throw new RangeError("Degree out of range");
+            // Polynomial coefficients are stored from highest to lowest power, excluding the leading term which is always 1.
+            // For example the polynomial x^3 + 255x^2 + 8x + 93 is stored as the uint8 array [255, 8, 93].
+            let result = [];
+            for (let i = 0; i < degree - 1; i++)
+                result.push(0);
+            result.push(1); // Start off with the monomial x^0
+            // Compute the product polynomial (x - r^0) * (x - r^1) * (x - r^2) * ... * (x - r^{degree-1}),
+            // and drop the highest monomial term which is always 1x^degree.
+            // Note that r = 0x02, which is a generator element of this field GF(2^8/0x11D).
+            let root = 1;
+            for (let i = 0; i < degree; i++) {
+                // Multiply the current product by (x - r^i)
+                for (let j = 0; j < result.length; j++) {
+                    result[j] = QrCode.reedSolomonMultiply(result[j], root);
+                    if (j + 1 < result.length)
+                        result[j] ^= result[j + 1];
+                }
+                root = QrCode.reedSolomonMultiply(root, 0x02);
+            }
+            return result;
+        }
+        // Returns the Reed-Solomon error correction codeword for the given data and divisor polynomials.
+        static reedSolomonComputeRemainder(data, divisor) {
+            let result = divisor.map(_ => 0);
+            for (const b of data) { // Polynomial division
+                const factor = b ^ result.shift();
+                result.push(0);
+                divisor.forEach((coef, i) => result[i] ^= QrCode.reedSolomonMultiply(coef, factor));
+            }
+            return result;
+        }
+        // Returns the product of the two given field elements modulo GF(2^8/0x11D). The arguments and result
+        // are unsigned 8-bit integers. This could be implemented as a lookup table of 256*256 entries of uint8.
+        static reedSolomonMultiply(x, y) {
+            if (x >>> 8 != 0 || y >>> 8 != 0)
+                throw new RangeError("Byte out of range");
+            // Russian peasant multiplication
+            let z = 0;
+            for (let i = 7; i >= 0; i--) {
+                z = (z << 1) ^ ((z >>> 7) * 0x11D);
+                z ^= ((y >>> i) & 1) * x;
+            }
+            assert(z >>> 8 == 0);
+            return z;
+        }
+        // Can only be called immediately after a light run is added, and
+        // returns either 0, 1, or 2. A helper function for getPenaltyScore().
+        finderPenaltyCountPatterns(runHistory) {
+            const n = runHistory[1];
+            assert(n <= this.size * 3);
+            const core = n > 0 && runHistory[2] == n && runHistory[3] == n * 3 && runHistory[4] == n && runHistory[5] == n;
+            return (core && runHistory[0] >= n * 4 && runHistory[6] >= n ? 1 : 0)
+                + (core && runHistory[6] >= n * 4 && runHistory[0] >= n ? 1 : 0);
+        }
+        // Must be called at the end of a line (row or column) of modules. A helper function for getPenaltyScore().
+        finderPenaltyTerminateAndCount(currentRunColor, currentRunLength, runHistory) {
+            if (currentRunColor) { // Terminate dark run
+                this.finderPenaltyAddHistory(currentRunLength, runHistory);
+                currentRunLength = 0;
+            }
+            currentRunLength += this.size; // Add light border to final run
+            this.finderPenaltyAddHistory(currentRunLength, runHistory);
+            return this.finderPenaltyCountPatterns(runHistory);
+        }
+        // Pushes the given value to the front and drops the last value. A helper function for getPenaltyScore().
+        finderPenaltyAddHistory(currentRunLength, runHistory) {
+            if (runHistory[0] == 0)
+                currentRunLength += this.size; // Add light border to initial run
+            runHistory.pop();
+            runHistory.unshift(currentRunLength);
+        }
+    }
+    /*-- Constants and tables --*/
+    // The minimum version number supported in the QR Code Model 2 standard.
+    QrCode.MIN_VERSION = 1;
+    // The maximum version number supported in the QR Code Model 2 standard.
+    QrCode.MAX_VERSION = 40;
+    // For use in getPenaltyScore(), when evaluating which mask is best.
+    QrCode.PENALTY_N1 = 3;
+    QrCode.PENALTY_N2 = 3;
+    QrCode.PENALTY_N3 = 40;
+    QrCode.PENALTY_N4 = 10;
+    QrCode.ECC_CODEWORDS_PER_BLOCK = [
+        // Version: (note that index 0 is for padding, and is set to an illegal value)
+        //0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40    Error correction level
+        [-1, 7, 10, 15, 20, 26, 18, 20, 24, 30, 18, 20, 24, 26, 30, 22, 24, 28, 30, 28, 28, 28, 28, 30, 30, 26, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+        [-1, 10, 16, 26, 18, 24, 16, 18, 22, 22, 26, 30, 22, 22, 24, 24, 28, 28, 26, 26, 26, 26, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28],
+        [-1, 13, 22, 18, 26, 18, 24, 18, 22, 20, 24, 28, 26, 24, 20, 30, 24, 28, 28, 26, 30, 28, 30, 30, 30, 30, 28, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
+        [-1, 17, 28, 22, 16, 22, 28, 26, 26, 24, 28, 24, 28, 22, 24, 24, 30, 28, 28, 26, 28, 30, 24, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30], // High
+    ];
+    QrCode.NUM_ERROR_CORRECTION_BLOCKS = [
+        // Version: (note that index 0 is for padding, and is set to an illegal value)
+        //0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40    Error correction level
+        [-1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 4, 4, 4, 4, 4, 6, 6, 6, 6, 7, 8, 8, 9, 9, 10, 12, 12, 12, 13, 14, 15, 16, 17, 18, 19, 19, 20, 21, 22, 24, 25],
+        [-1, 1, 1, 1, 2, 2, 4, 4, 4, 5, 5, 5, 8, 9, 9, 10, 10, 11, 13, 14, 16, 17, 17, 18, 20, 21, 23, 25, 26, 28, 29, 31, 33, 35, 37, 38, 40, 43, 45, 47, 49],
+        [-1, 1, 1, 2, 2, 4, 4, 6, 6, 8, 8, 8, 10, 12, 16, 12, 17, 16, 18, 21, 20, 23, 23, 25, 27, 29, 34, 34, 35, 38, 40, 43, 45, 48, 51, 53, 56, 59, 62, 65, 68],
+        [-1, 1, 1, 2, 4, 4, 4, 5, 6, 8, 8, 11, 11, 16, 16, 18, 16, 19, 21, 25, 25, 25, 34, 30, 32, 35, 37, 40, 42, 45, 48, 51, 54, 57, 60, 63, 66, 70, 74, 77, 81], // High
+    ];
+    qrcodegen.QrCode = QrCode;
+    // Appends the given number of low-order bits of the given value
+    // to the given buffer. Requires 0 <= len <= 31 and 0 <= val < 2^len.
+    function appendBits(val, len, bb) {
+        if (len < 0 || len > 31 || val >>> len != 0)
+            throw new RangeError("Value out of range");
+        for (let i = len - 1; i >= 0; i--) // Append bit by bit
+            bb.push((val >>> i) & 1);
+    }
+    // Returns true iff the i'th bit of x is set to 1.
+    function getBit(x, i) {
+        return ((x >>> i) & 1) != 0;
+    }
+    // Throws an exception if the given condition is false.
+    function assert(cond) {
+        if (!cond)
+            throw new Error("Assertion error");
+    }
+    /*---- Data segment class ----*/
+    /*
+     * A segment of character/binary/control data in a QR Code symbol.
+     * Instances of this class are immutable.
+     * The mid-level way to create a segment is to take the payload data
+     * and call a static factory function such as QrSegment.makeNumeric().
+     * The low-level way to create a segment is to custom-make the bit buffer
+     * and call the QrSegment() constructor with appropriate values.
+     * This segment class imposes no length restrictions, but QR Codes have restrictions.
+     * Even in the most favorable conditions, a QR Code can only hold 7089 characters of data.
+     * Any segment longer than this is meaningless for the purpose of generating QR Codes.
+     */
+    class QrSegment {
+        /*-- Constructor (low level) and fields --*/
+        // Creates a new QR Code segment with the given attributes and data.
+        // The character count (numChars) must agree with the mode and the bit buffer length,
+        // but the constraint isn't checked. The given bit buffer is cloned and stored.
+        constructor(
+        // The mode indicator of this segment.
+        mode, 
+        // The length of this segment's unencoded data. Measured in characters for
+        // numeric/alphanumeric/kanji mode, bytes for byte mode, and 0 for ECI mode.
+        // Always zero or positive. Not the same as the data's bit length.
+        numChars, 
+        // The data bits of this segment. Accessed through getData().
+        bitData) {
+            this.mode = mode;
+            this.numChars = numChars;
+            this.bitData = bitData;
+            if (numChars < 0)
+                throw new RangeError("Invalid argument");
+            this.bitData = bitData.slice(); // Make defensive copy
+        }
+        /*-- Static factory functions (mid level) --*/
+        // Returns a segment representing the given binary data encoded in
+        // byte mode. All input byte arrays are acceptable. Any text string
+        // can be converted to UTF-8 bytes and encoded as a byte mode segment.
+        static makeBytes(data) {
+            let bb = [];
+            for (const b of data)
+                appendBits(b, 8, bb);
+            return new QrSegment(QrSegment.Mode.BYTE, data.length, bb);
+        }
+        // Returns a segment representing the given string of decimal digits encoded in numeric mode.
+        static makeNumeric(digits) {
+            if (!QrSegment.isNumeric(digits))
+                throw new RangeError("String contains non-numeric characters");
+            let bb = [];
+            for (let i = 0; i < digits.length;) { // Consume up to 3 digits per iteration
+                const n = Math.min(digits.length - i, 3);
+                appendBits(parseInt(digits.substring(i, i + n), 10), n * 3 + 1, bb);
+                i += n;
+            }
+            return new QrSegment(QrSegment.Mode.NUMERIC, digits.length, bb);
+        }
+        // Returns a segment representing the given text string encoded in alphanumeric mode.
+        // The characters allowed are: 0 to 9, A to Z (uppercase only), space,
+        // dollar, percent, asterisk, plus, hyphen, period, slash, colon.
+        static makeAlphanumeric(text) {
+            if (!QrSegment.isAlphanumeric(text))
+                throw new RangeError("String contains unencodable characters in alphanumeric mode");
+            let bb = [];
+            let i;
+            for (i = 0; i + 2 <= text.length; i += 2) { // Process groups of 2
+                let temp = QrSegment.ALPHANUMERIC_CHARSET.indexOf(text.charAt(i)) * 45;
+                temp += QrSegment.ALPHANUMERIC_CHARSET.indexOf(text.charAt(i + 1));
+                appendBits(temp, 11, bb);
+            }
+            if (i < text.length) // 1 character remaining
+                appendBits(QrSegment.ALPHANUMERIC_CHARSET.indexOf(text.charAt(i)), 6, bb);
+            return new QrSegment(QrSegment.Mode.ALPHANUMERIC, text.length, bb);
+        }
+        // Returns a new mutable list of zero or more segments to represent the given Unicode text string.
+        // The result may use various segment modes and switch modes to optimize the length of the bit stream.
+        static makeSegments(text) {
+            // Select the most efficient segment encoding automatically
+            if (text == "")
+                return [];
+            else if (QrSegment.isNumeric(text))
+                return [QrSegment.makeNumeric(text)];
+            else if (QrSegment.isAlphanumeric(text))
+                return [QrSegment.makeAlphanumeric(text)];
+            else
+                return [QrSegment.makeBytes(QrSegment.toUtf8ByteArray(text))];
+        }
+        // Returns a segment representing an Extended Channel Interpretation
+        // (ECI) designator with the given assignment value.
+        static makeEci(assignVal) {
+            let bb = [];
+            if (assignVal < 0)
+                throw new RangeError("ECI assignment value out of range");
+            else if (assignVal < (1 << 7))
+                appendBits(assignVal, 8, bb);
+            else if (assignVal < (1 << 14)) {
+                appendBits(0b10, 2, bb);
+                appendBits(assignVal, 14, bb);
+            }
+            else if (assignVal < 1000000) {
+                appendBits(0b110, 3, bb);
+                appendBits(assignVal, 21, bb);
+            }
+            else
+                throw new RangeError("ECI assignment value out of range");
+            return new QrSegment(QrSegment.Mode.ECI, 0, bb);
+        }
+        // Tests whether the given string can be encoded as a segment in numeric mode.
+        // A string is encodable iff each character is in the range 0 to 9.
+        static isNumeric(text) {
+            return QrSegment.NUMERIC_REGEX.test(text);
+        }
+        // Tests whether the given string can be encoded as a segment in alphanumeric mode.
+        // A string is encodable iff each character is in the following set: 0 to 9, A to Z
+        // (uppercase only), space, dollar, percent, asterisk, plus, hyphen, period, slash, colon.
+        static isAlphanumeric(text) {
+            return QrSegment.ALPHANUMERIC_REGEX.test(text);
+        }
+        /*-- Methods --*/
+        // Returns a new copy of the data bits of this segment.
+        getData() {
+            return this.bitData.slice(); // Make defensive copy
+        }
+        // (Package-private) Calculates and returns the number of bits needed to encode the given segments at
+        // the given version. The result is infinity if a segment has too many characters to fit its length field.
+        static getTotalBits(segs, version) {
+            let result = 0;
+            for (const seg of segs) {
+                const ccbits = seg.mode.numCharCountBits(version);
+                if (seg.numChars >= (1 << ccbits))
+                    return Infinity; // The segment's length doesn't fit the field's bit width
+                result += 4 + ccbits + seg.bitData.length;
+            }
+            return result;
+        }
+        // Returns a new array of bytes representing the given string encoded in UTF-8.
+        static toUtf8ByteArray(str) {
+            str = encodeURI(str);
+            let result = [];
+            for (let i = 0; i < str.length; i++) {
+                if (str.charAt(i) != "%")
+                    result.push(str.charCodeAt(i));
+                else {
+                    result.push(parseInt(str.substring(i + 1, i + 3), 16));
+                    i += 2;
+                }
+            }
+            return result;
+        }
+    }
+    /*-- Constants --*/
+    // Describes precisely all strings that are encodable in numeric mode.
+    QrSegment.NUMERIC_REGEX = /^[0-9]*$/;
+    // Describes precisely all strings that are encodable in alphanumeric mode.
+    QrSegment.ALPHANUMERIC_REGEX = /^[A-Z0-9 $%*+.\/:-]*$/;
+    // The set of all legal characters in alphanumeric mode,
+    // where each character value maps to the index in the string.
+    QrSegment.ALPHANUMERIC_CHARSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:";
+    qrcodegen.QrSegment = QrSegment;
+})(qrcodegen || (qrcodegen = {}));
+/*---- Public helper enumeration ----*/
+(function (qrcodegen) {
+    var QrCode;
+    (function (QrCode) {
+        /*
+         * The error correction level in a QR Code symbol. Immutable.
+         */
+        class Ecc {
+            /*-- Constructor and fields --*/
+            constructor(
+            // In the range 0 to 3 (unsigned 2-bit integer).
+            ordinal, 
+            // (Package-private) In the range 0 to 3 (unsigned 2-bit integer).
+            formatBits) {
+                this.ordinal = ordinal;
+                this.formatBits = formatBits;
+            }
+        }
+        /*-- Constants --*/
+        Ecc.LOW = new Ecc(0, 1); // The QR Code can tolerate about  7% erroneous codewords
+        Ecc.MEDIUM = new Ecc(1, 0); // The QR Code can tolerate about 15% erroneous codewords
+        Ecc.QUARTILE = new Ecc(2, 3); // The QR Code can tolerate about 25% erroneous codewords
+        Ecc.HIGH = new Ecc(3, 2); // The QR Code can tolerate about 30% erroneous codewords
+        QrCode.Ecc = Ecc;
+    })(QrCode = qrcodegen.QrCode || (qrcodegen.QrCode = {}));
+})(qrcodegen || (qrcodegen = {}));
+/*---- Public helper enumeration ----*/
+(function (qrcodegen) {
+    var QrSegment;
+    (function (QrSegment) {
+        /*
+         * Describes how a segment's data bits are interpreted. Immutable.
+         */
+        class Mode {
+            /*-- Constructor and fields --*/
+            constructor(
+            // The mode indicator bits, which is a uint4 value (range 0 to 15).
+            modeBits, 
+            // Number of character count bits for three different version ranges.
+            numBitsCharCount) {
+                this.modeBits = modeBits;
+                this.numBitsCharCount = numBitsCharCount;
+            }
+            /*-- Method --*/
+            // (Package-private) Returns the bit width of the character count field for a segment in
+            // this mode in a QR Code at the given version number. The result is in the range [0, 16].
+            numCharCountBits(ver) {
+                return this.numBitsCharCount[Math.floor((ver + 7) / 17)];
+            }
+        }
+        /*-- Constants --*/
+        Mode.NUMERIC = new Mode(0x1, [10, 12, 14]);
+        Mode.ALPHANUMERIC = new Mode(0x2, [9, 11, 13]);
+        Mode.BYTE = new Mode(0x4, [8, 16, 16]);
+        Mode.KANJI = new Mode(0x8, [8, 10, 12]);
+        Mode.ECI = new Mode(0x7, [0, 0, 0]);
+        QrSegment.Mode = Mode;
+    })(QrSegment = qrcodegen.QrSegment || (qrcodegen.QrSegment = {}));
+})(qrcodegen || (qrcodegen = {}));
+
+</script>
 <script>
 
 'use strict';
@@ -54,6 +894,42 @@ const coasterPrintProfile={"accel_to_decel_enable": "0", "accel_to_decel_factor"
 let frontSnapshot=null;
 function frontRasterSignature(){return JSON.stringify(['productMode','res','count','remove','tol','cleanSpeckles','speckSize'].map(id=>$(id).type==='checkbox'?$(id).checked:$(id).value))}
 function rememberFront(){if(src&&labels&&scene)frontSnapshot={source:src,signature:frontRasterSignature(),labels:new Int16Array(labels),colors:[...pal],heights:[...heights],w:W,h:H}}
+
+let generatedQr=null,generatedQrCanvas=null,generatedQrUrl='',qrRequiredWidth=0;
+function qrError(message){$('qrStatus').textContent=message}
+function qrPaletteFromFront(){
+ if(!src||!labels||!scene)throw Error('Primero cargá la imagen frontal. El QR usará sus colores y se aplicará al reverso.');
+ const colors=[...new Set(Array.from(labels).filter(k=>k>=0).map(k=>pal[k].toLowerCase()))];if(colors.length>4)throw Error('Reducí la paleta frontal a un máximo de cuatro colores para usar el QR.');
+ const luminance=color=>rgb(color).map(v=>v/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
+ let best=null;for(let dark of colors)for(let light of colors){let a=luminance(dark),b=luminance(light);if(a>=b)continue;let contrast=(b+.05)/(a+.05);if(!best||contrast>best.contrast)best={dark,light,contrast}}
+ if(!best||best.contrast<4.5)throw Error('Los tonos del frente no tienen contraste suficiente. Elegí en su paleta un tono más claro y otro más oscuro. No se agregó ningún color.');return best;
+}
+function paintGeneratedQr(inks){
+ const scale=12,canvas=document.createElement('canvas');canvas.width=canvas.height=(generatedQr.size+8)*scale;const c=canvas.getContext('2d');c.fillStyle=inks.light;c.fillRect(0,0,canvas.width,canvas.height);c.fillStyle=inks.dark;for(let y=0;y<generatedQr.size;y++)for(let x=0;x<generatedQr.size;x++)if(generatedQr.getModule(x,y))c.fillRect((x+4)*scale,(y+4)*scale,scale,scale);generatedQrCanvas=canvas;const preview=$('qrPreview');preview.width=preview.height=canvas.width;preview.getContext('2d').drawImage(canvas,0,0);$('qrEncoded').textContent=generatedQrUrl+' · Colores de la imagen frontal';return canvas;
+}
+$('openQr').onclick=()=>{$('qrDialog').showModal();qrError(src&&scene?'Pegá el enlace. El QR usará la paleta del frente y se aplicará al reverso.':'Primero cargá la imagen frontal para usar su paleta.')};$('closeQr').onclick=()=>$('qrDialog').close();
+$('qrUrl').oninput=()=>{generatedQr=null;generatedQrCanvas=null;$('qrResult').hidden=true;qrError('Generá el QR con el enlace actualizado.')};
+$('qrGenerate').onclick=()=>{qrRequiredWidth=0;$('qrFit').hidden=true;try{
+ const value=$('qrUrl').value.trim();if(!value||/\s/.test(value))throw Error('Ingresá un enlace completo que comience con https:// o http://, sin espacios.');let url;try{url=new URL(value)}catch{throw Error('Ingresá una dirección web válida, por ejemplo https://tupagina.com.')}
+ if(!['https:','http:'].includes(url.protocol)||!url.hostname||url.username||url.password)throw Error('Usá un enlace http o https, sin usuario ni contraseña incluidos.');
+ const inks=qrPaletteFromFront();try{generatedQr=qrcodegen.QrCode.encodeText(value,qrcodegen.QrCode.Ecc.MEDIUM)}catch{throw Error('Este enlace supera la capacidad de un código QR. Usá una versión más corta del enlace.')}generatedQrUrl=value;paintGeneratedQr(inks);$('qrResult').hidden=false;qrError('QR listo con tu paleta. Tocá «Usar QR en el reverso».');
+}catch(error){generatedQr=null;generatedQrCanvas=null;$('qrResult').hidden=true;qrError(error.message)}};
+function largestQrSquare(){
+ let minX=W,minY=H,maxX=-1,maxY=-1;for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(labels[y*W+x]>=0){minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x);maxY=Math.max(maxY,y)}
+ const stride=W+1,dp=new Uint16Array((W+1)*(H+1));let best={side:0,x:0,y:0,minX,minY,bw:maxX-minX+1,bh:maxY-minY+1};for(let y=minY;y<=maxY;y++)for(let x=minX;x<=maxX;x++){let mirrored=minX+maxX-x;if(labels[y*W+mirrored]<0)continue;let i=(y+1)*stride+x+1;dp[i]=1+Math.min(dp[i-1],dp[i-stride],dp[i-stride-1]);if(dp[i]>best.side)best={...best,side:dp[i],x:x-dp[i]+1,y:y-dp[i]+1}}return best;
+}
+function showQrFace(){backView=true;$('flipFace').textContent='Ver frente';$('flipFace').setAttribute('aria-pressed','true');document.querySelector('.stage-label').textContent='VISTA PREVIA · REVERSO'}
+$('qrApply').onclick=()=>{qrRequiredWidth=0;$('qrFit').hidden=true;try{
+ if(!generatedQrCanvas||!generatedQr)throw Error('Primero generá el QR.');const inks=qrPaletteFromFront();paintGeneratedQr(inks);const units=generatedQr.size+8,box=largestQrSquare(),side=Math.floor(box.side*.96),moduleMm=side*scene.step/units;
+ if(side<units||moduleMm<1){const suggested=Math.ceil(num('width')/Math.max(moduleMm,.01))+1;if(suggested<=Number($('width').max)){qrRequiredWidth=suggested;$('qrFit').hidden=false;$('qrFit').textContent='Aumentar la pieza a '+suggested+' mm y aplicar QR';}throw Error('Este enlace necesita más espacio para módulos de al menos 1 mm. Podés aumentar el ancho a '+suggested+' mm, elegir un contorno más amplio o usar un enlace más corto.');}
+ const colors=new Set(Array.from(labels).filter(k=>k>=0).map(k=>pal[k].toUpperCase()));colors.add($('baseColor').value.toUpperCase());const alignCore=colors.size>4;
+ const factor=4,image=document.createElement('canvas');image.width=box.bw*factor;image.height=box.bh*factor;const c=image.getContext('2d');c.imageSmoothingEnabled=false;const inset=(box.side-side)/2;c.drawImage(generatedQrCanvas,(box.x-box.minX+inset)*factor,(box.y-box.minY+inset)*factor,side*factor,side*factor);
+ image.__printaplabQr=true;image.__qrModuleMm=moduleMm;image.__qrReferenceWidth=num('width');rememberFront();backSrc=image;$('backFile').value='';$('backImageStatus').textContent='Reverso: QR con la paleta del frente. Módulos de '+moduleMm.toFixed(2)+' mm.';
+ if(!$('differentBack').checked){$('differentBack').checked=true;$('differentBack').onchange()}else convert();if(alignCore){$('baseColor').value=inks.dark;$('baseSlot').value='custom';$('backImageStatus').textContent+=' Centro del mismo tono oscuro para no sumar un quinto filamento.'}showQrFace();$('qrDialog').close();say('QR aplicado al reverso con los colores del frente. Probá su lectura con el teléfono.');
+}catch(error){qrError(error.message)}};
+$('qrFit').onclick=()=>{if(!qrRequiredWidth)return;$('width').value=String(qrRequiredWidth);rebuild();$('qrApply').click()};
+$('qrDownload').onclick=()=>{if(!generatedQrCanvas)return;generatedQrCanvas.toBlob(blob=>{if(blob)download(blob,'Printaplab_QR.png')},'image/png')};
+
 function hasIndependentBack(){return $('differentBack').checked&&!!backSrc}
 let savedFaceSettings=null;
 function enforceIndependentFaces(){
@@ -117,7 +993,7 @@ function removeImageBackground(d,active){
 let edge=[],original=new Uint8Array(active);for(let y=0;y<H;y++)for(let x=0;x<W;x++){let i=y*W+x;if(original[i]&&(x===0||y===0||x===W-1||y===H-1||!original[i-1]||!original[i+1]||!original[i-W]||!original[i+W]))edge.push(i)}
 let hist=new Map();for(let i of edge){let a=[d[i*4],d[i*4+1],d[i*4+2]],key=a.map(v=>Math.round(v/16)).join(',');let v=hist.get(key)||{n:0,sum:[0,0,0]};v.n++;a.forEach((c,j)=>v.sum[j]+=c);hist.set(key,v)}let dominant=[...hist.values()].sort((a,b)=>b.n-a.n)[0];let bg=dominant?dominant.sum.map(v=>v/dominant.n):[255,255,255],visited=new Uint8Array(W*H),queue=[],tolerance=num('tol');function push(i){if(i<0||i>=active.length||visited[i])return;visited[i]=1;if(original[i]&&Math.hypot(d[4*i]-bg[0],d[4*i+1]-bg[1],d[4*i+2]-bg[2])<=tolerance){active[i]=0;queue.push(i)}}for(let i of edge)push(i);for(let p=0;p<queue.length;p++){let i=queue[p];if(i%W)push(i-1);if(i%W<W-1)push(i+1);push(i-W);push(i+W)}}
 function convert(){if(!src){say('Primero cargá una imagen.');return}say('Convirtiendo…');setTimeout(()=>{try{let n=num('res'),sw=src.naturalWidth||src.width,sh=src.naturalHeight||src.height;W=isCoaster()?n:Math.max(2,Math.round(n*sw/Math.max(sw,sh)));H=isCoaster()?n:Math.max(2,Math.round(n*sh/Math.max(sw,sh)));let c=document.createElement('canvas');c.width=W;c.height=H;let x=c.getContext('2d');x.imageSmoothingEnabled=false;if(isCoaster()){let scale=n/Math.max(sw,sh);x.drawImage(src,(n-sw*scale)/2,(n-sh*scale)/2,sw*scale,sh*scale)}else x.drawImage(src,0,0,W,H);let d=x.getImageData(0,0,W,H).data,active=new Uint8Array(W*H);for(let i=0;i<active.length;i++)active[i]=d[i*4+3]>100?1:0;
-if($('remove').checked)removeImageBackground(d,active);
+if($('remove').checked&&!src.__printaplabQr)removeImageBackground(d,active);
 
 if(isCoaster()){for(let yy=0;yy<H;yy++)for(let xx=0;xx<W;xx++){let i=yy*W+xx,inside=Math.hypot(xx+.5-W/2,yy+.5-H/2)<=Math.min(W,H)/2;if(!inside){active[i]=0}else if(!active[i]){active[i]=1;d[4*i]=d[4*i+1]=d[4*i+2]=0;d[4*i+3]=255}}}
 let backData=null,backActive=null;
@@ -125,7 +1001,7 @@ if(hasIndependentBack()){
  let minX=W,minY=H,maxX=-1,maxY=-1;for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(active[y*W+x]){minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x);maxY=Math.max(maxY,y)}
  if(maxX<0)throw Error('No quedó dibujo en el frente.');
  let bw=maxX-minX+1,bh=maxY-minY+1,rw=backSrc.naturalWidth||backSrc.width,rh=backSrc.naturalHeight||backSrc.height,scale=Math.min(bw/rw,bh/rh),canvas=document.createElement('canvas');canvas.width=W;canvas.height=H;let bx=canvas.getContext('2d');bx.imageSmoothingEnabled=false;bx.drawImage(backSrc,minX+(bw-rw*scale)/2,minY+(bh-rh*scale)/2,rw*scale,rh*scale);backData=bx.getImageData(0,0,W,H).data;backActive=new Uint8Array(W*H);for(let i=0;i<backActive.length;i++)backActive[i]=backData[4*i+3]>100?1:0;
- if($('remove').checked)removeImageBackground(backData,backActive);
+ if($('remove').checked&&!backSrc.__printaplabQr)removeImageBackground(backData,backActive);
  for(let y=0;y<H;y++)for(let x=0;x<W;x++){let i=y*W+x,mx=minX+maxX-x;if(mx<0||mx>=W||!active[y*W+mx])backActive[i]=0;}
 }
 let pts=[];for(let i=0;i<active.length;i++)if(active[i])pts.push([d[4*i],d[4*i+1],d[4*i+2]]);if(!pts.length)throw Error('No quedó dibujo. Desactivá quitar fondo o bajá la tolerancia.');let k=Math.min(num('count'),pts.length),centers=[pts[0]];while(centers.length<k){let best=pts[0],dist=-1;for(let p=0;p<pts.length;p+=Math.max(1,Math.floor(pts.length/5000))){let v=pts[p],dd=Math.min(...centers.map(b=>v.reduce((s,a,i)=>s+(a-b[i])**2,0)));if(dd>dist){dist=dd;best=v}}if(dist<25)break;centers.push(best)}function nearest(v){let bi=0,bd=Infinity;centers.forEach((b,i)=>{let dd=v.reduce((s,a,j)=>s+(a-b[j])**2,0);if(dd<bd){bd=dd;bi=i}});return bi}for(let it=0;it<9;it++){let sums=centers.map(()=>[0,0,0,0]);for(let p=0;p<pts.length;p+=2){let a=pts[p],s=sums[nearest(a)];for(let j=0;j<3;j++)s[j]+=a[j];s[3]++}centers=centers.map((c,i)=>sums[i][3]?sums[i].slice(0,3).map(v=>v/sums[i][3]):c)}labels=new Int16Array(W*H).fill(-1);for(let i=0;i<labels.length;i++)if(active[i])labels[i]=nearest([d[4*i],d[4*i+1],d[4*i+2]]);let reuseFront=frontSnapshot&&frontSnapshot.source===src&&frontSnapshot.signature===frontRasterSignature()&&frontSnapshot.w===W&&frontSnapshot.h===H;
@@ -135,7 +1011,7 @@ if(backData){
  let core=rgb($('baseColor').value);if(centers.length<4&&!centers.some(c=>c.every((v,i)=>v===core[i])))centers.push(core);
  while(centers.length<4){let best=null,distance=25;for(let i=0;i<backActive.length;i+=Math.max(1,Math.floor(backActive.length/10000))){if(!backActive[i])continue;let v=[backData[4*i],backData[4*i+1],backData[4*i+2]],dd=Math.min(...centers.map(c=>v.reduce((sum,a,j)=>sum+(a-c[j])**2,0)));if(dd>distance){distance=dd;best=v}}if(!best)break;centers.push(best)}
 }
-rearLabels=backData?new Int16Array(W*H).fill(-1):null;if(backData)for(let i=0;i<rearLabels.length;i++)if(backActive[i])rearLabels[i]=nearest([backData[4*i],backData[4*i+1],backData[4*i+2]]);pal=centers.map(hex);let cleaned=!reuseFront&&$('cleanSpeckles').checked?cleanColorIslands(labels,W,H,num('speckSize'),pal):0;if(rearLabels&&$('cleanSpeckles').checked)cleanColorIslands(rearLabels,W,H,num('speckSize'),pal);heights=pal.map((_,i)=>reuseFront?frontSnapshot.heights[i]??(isCoaster()?.6:.8):isCoaster()?.6:.8);palette();rebuild();say('Imagen convertida. '+(cleaned?cleaned+' píxeles de microislas reasignados. ':'')+($('differentBack').checked?(backSrc?'Frente conservado. Reverso adaptado a la paleta compartida, hasta cuatro colores. Color solo en las caras; centro sólido.':'Falta cargar la imagen del reverso.'):'Ajustá los colores y revisá el enganche.'))}catch(e){say(e.message)}},30)}
+rearLabels=backData?new Int16Array(W*H).fill(-1):null;if(backData)for(let i=0;i<rearLabels.length;i++)if(backActive[i])rearLabels[i]=nearest([backData[4*i],backData[4*i+1],backData[4*i+2]]);pal=centers.map(hex);let cleaned=!reuseFront&&$('cleanSpeckles').checked?cleanColorIslands(labels,W,H,num('speckSize'),pal):0;if(rearLabels&&!backSrc.__printaplabQr&&$('cleanSpeckles').checked)cleanColorIslands(rearLabels,W,H,num('speckSize'),pal);heights=pal.map((_,i)=>reuseFront?frontSnapshot.heights[i]??(isCoaster()?.6:.8):isCoaster()?.6:.8);palette();rebuild();say('Imagen convertida. '+(cleaned?cleaned+' píxeles de microislas reasignados. ':'')+($('differentBack').checked?(backSrc?'Frente conservado. Reverso adaptado a la paleta compartida, hasta cuatro colores. Color solo en las caras; centro sólido.':'Falta cargar la imagen del reverso.'):'Ajustá los colores y revisá el enganche.'))}catch(e){say(e.message)}},30)}
 // Clean only tiny disconnected color islands. Decisions use an immutable label snapshot,
 // so traversal order cannot spread a replacement through neighboring regions.
 function cleanColorIslands(map,w,h,limit,colors){let original=new Int16Array(map),visited=new Uint8Array(map.length),changes=[],rgbColors=colors.map(rgb);for(let seed=0;seed<map.length;seed++){let color=original[seed];if(color<0||visited[seed])continue;let queue=[seed],component=[],neighbors=new Map();visited[seed]=1;for(let p=0;p<queue.length;p++){let at=queue[p],x=at%w,y=Math.floor(at/w);component.push(at);for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){if(!dx&&!dy)continue;let xx=x+dx,yy=y+dy;if(xx<0||yy<0||xx>=w||yy>=h)continue;let n=yy*w+xx,c=original[n];if(c===color){if(!visited[n]){visited[n]=1;queue.push(n)}}else if(c>=0){neighbors.set(c,(neighbors.get(c)||0)+(dx===0||dy===0?2:1))}}}if(component.length>limit||!neighbors.size)continue;let ranked=[...neighbors].sort((a,b)=>b[1]-a[1]||rgbColors[color].reduce((sum,v,i)=>sum+(v-rgbColors[a[0]][i])**2,0)-rgbColors[color].reduce((sum,v,i)=>sum+(v-rgbColors[b[0]][i])**2,0));for(let at of component)changes.push([at,ranked[0][0]])}for(let [at,color]of changes)map[at]=color;return changes.length}
@@ -196,7 +1072,7 @@ $('attachType').onchange=()=>{attachmentUI();rebuild()};
 // Closed, consistently oriented meshes; shared vertices retain topology.
 // Shared deformation of the color-interface graph. Every part uses the same XY mapping.
 // Interior grid nodes and multi-color junctions are pinned; face orientation is validated.
-function contourGrid(s){let passes=Number($('contourSmooth')?.value)||0;if(!passes)return null;if(s.contourCache?.passes===passes)return s.contourCache;let {nx,ny,map,baseMask}=s,stride=nx+1,total=stride*(ny+1),xx=new Float64Array(total),yy=new Float64Array(total),graph=new Map();for(let y=0;y<=ny;y++)for(let x=0;x<=nx;x++){let id=y*stride+x;xx[id]=x;yy[id]=y}function material(x,y){if(x<0||y<0||x>=nx||y>=ny||!baseMask[y*nx+x])return -99;let i=y*nx+x;return map[i]>=0?map[i]:s.eyeFull&&s.ringMask?.[i]?-2:-1}function edge(a,b,one,two){if(one===two)return;let key=Math.min(one,two)+':'+Math.max(one,two);if(!graph.has(a))graph.set(a,new Map());if(!graph.has(b))graph.set(b,new Map());graph.get(a).set(b,key);graph.get(b).set(a,key)}for(let y=0;y<=ny;y++)for(let x=0;x<nx;x++)edge(y*stride+x,y*stride+x+1,material(x,y-1),material(x,y));for(let x=0;x<=nx;x++)for(let y=0;y<ny;y++)edge(y*stride+x,(y+1)*stride+x,material(x-1,y),material(x,y));let movable=[];for(let [id,neighbors]of graph){if(neighbors.size!==2)continue;let list=[...neighbors];if(list[0][1]!==list[1][1])continue;movable.push([id,list[0][0],list[1][0]])}let clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));for(let pass=0;pass<passes;pass++){let next=[];for(let [i,a,b]of movable){let ox=i%stride,oy=Math.floor(i/stride),x=xx[i]+.6*((xx[a]+xx[b])/2-xx[i]),y=yy[i]+.6*((yy[a]+yy[b])/2-yy[i]);next.push([i,clamp(x,ox-.48,ox+.48),clamp(y,oy-.48,oy+.48)])}for(let [i,x,y]of next){xx[i]=x;yy[i]=y}}
+function contourGrid(s){if((typeof src!=='undefined'&&src?.__printaplabQr)||(typeof backSrc!=='undefined'&&hasIndependentBack()&&backSrc?.__printaplabQr))return null;let passes=Number($('contourSmooth')?.value)||0;if(!passes)return null;if(s.contourCache?.passes===passes)return s.contourCache;let {nx,ny,map,baseMask}=s,stride=nx+1,total=stride*(ny+1),xx=new Float64Array(total),yy=new Float64Array(total),graph=new Map();for(let y=0;y<=ny;y++)for(let x=0;x<=nx;x++){let id=y*stride+x;xx[id]=x;yy[id]=y}function material(x,y){if(x<0||y<0||x>=nx||y>=ny||!baseMask[y*nx+x])return -99;let i=y*nx+x;return map[i]>=0?map[i]:s.eyeFull&&s.ringMask?.[i]?-2:-1}function edge(a,b,one,two){if(one===two)return;let key=Math.min(one,two)+':'+Math.max(one,two);if(!graph.has(a))graph.set(a,new Map());if(!graph.has(b))graph.set(b,new Map());graph.get(a).set(b,key);graph.get(b).set(a,key)}for(let y=0;y<=ny;y++)for(let x=0;x<nx;x++)edge(y*stride+x,y*stride+x+1,material(x,y-1),material(x,y));for(let x=0;x<=nx;x++)for(let y=0;y<ny;y++)edge(y*stride+x,(y+1)*stride+x,material(x-1,y),material(x,y));let movable=[];for(let [id,neighbors]of graph){if(neighbors.size!==2)continue;let list=[...neighbors];if(list[0][1]!==list[1][1])continue;movable.push([id,list[0][0],list[1][0]])}let clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));for(let pass=0;pass<passes;pass++){let next=[];for(let [i,a,b]of movable){let ox=i%stride,oy=Math.floor(i/stride),x=xx[i]+.6*((xx[a]+xx[b])/2-xx[i]),y=yy[i]+.6*((yy[a]+yy[b])/2-yy[i]);next.push([i,clamp(x,ox-.48,ox+.48),clamp(y,oy-.48,oy+.48)])}for(let [i,x,y]of next){xx[i]=x;yy[i]=y}}
 function cross(a,b,c){return(xx[b]-xx[a])*(yy[c]-yy[a])-(yy[b]-yy[a])*(xx[c]-xx[a])}for(let round=0;round<8;round++){let bad=new Set();for(let y=0;y<ny;y++)for(let x=0;x<nx;x++){let a=y*stride+x,b=a+1,d=a+stride,c=d+1;if(cross(a,b,c)<.03||cross(a,c,d)<.03){bad.add(a);bad.add(b);bad.add(c);bad.add(d)}}if(!bad.size)break;for(let i of bad){xx[i]=i%stride;yy[i]=Math.floor(i/stride)}}let moved=0;for(let [i]of movable)if(Math.abs(xx[i]-i%stride)+Math.abs(yy[i]-Math.floor(i/stride))>1e-7)moved++;return s.contourCache={passes,xx,yy,stride,moved}}
 function contourPoint(s,x,y){let grid=s.contourExportGrid;if(!grid)return[x,y];let i=y*grid.stride+x;return[grid.xx[i],grid.yy[i]]}
 $('contourSmooth').onchange=()=>{if(scene)delete scene.contourCache;say('El suavizado elegido se aplicará a la próxima exportación 3MF o STL.')};
@@ -281,7 +1157,7 @@ tris.push([ids[0],ids[2],ids[1]],[ids[0],ids[3],ids[2]])}
 for(let y=0;y<ny;y++)for(let x=0;x<nx;x++)if(has(x,y)){cellX=x;cellY=y;quad([x,y,hi],[x+1,y,hi],[x+1,y+1,hi],[x,y+1,hi]);quad([x,y,lo],[x,y+1,lo],[x+1,y+1,lo],[x+1,y,lo]);if(!has(x,y-1))quad([x,y,lo],[x+1,y,lo],[x+1,y,hi],[x,y,hi]);if(!has(x+1,y))quad([x+1,y,lo],[x+1,y+1,lo],[x+1,y+1,hi],[x+1,y,hi]);if(!has(x,y+1))quad([x+1,y+1,lo],[x,y+1,lo],[x,y+1,hi],[x+1,y+1,hi]);if(!has(x-1,y))quad([x,y+1,lo],[x,y,lo],[x,y,hi],[x,y+1,hi])}return{verts,tris}}
 $('baseColor').onchange=()=>{$('baseSlot').value='custom';rebuild()};
 function exportPalette(){let el=$('exportPalette');el.replaceChildren();let used=new Set(),needsBase=!scene||!scene.doubleSided||scene.mirrorBack||scene.colorFill==='skins';if(scene){for(let i=0;i<scene.map.length;i++)if(scene.baseMask[i]){if(scene.map[i]>=0)used.add(scene.map[i]);else needsBase=true;if((scene.independentBack||scene.mirrorBack)&&scene.backMap[i]>=0)used.add(scene.backMap[i])}}let colors=[...new Set([...(needsBase?[$('baseColor').value]:[]),...pal.filter((_,i)=>!scene||used.has(i))].map(c=>c.toUpperCase()))];let title=document.createElement('b');title.textContent='Filamentos a exportar: '+colors.length;el.append(title);colors.forEach((col,i)=>{let row=document.createElement('div');row.style.cssText='display:flex;align-items:center;gap:8px;margin-top:7px';let sw=document.createElement('span');sw.style.cssText='width:22px;height:22px;border:1px solid #8992a4;border-radius:5px;background:'+col;let text=document.createElement('span');text.textContent=(i+1)+' · '+col;row.append(sw,text);el.append(row)});if(colors.length>4){let msg=document.createElement('p');msg.className='note';msg.textContent='Hay más de 4 filamentos. Uní colores o reutilizá un color del dibujo para la base si usás AMS Lite.';el.append(msg)}}
-function meshes(){if($('differentBack').checked&&!backSrc){say('Cargá la imagen del reverso o desactivá la opción de imagen diferente.');throw Error('Falta la imagen del reverso.')}if($('differentBack').checked&&new Set([$('baseColor').value,...pal].map(c=>c.toUpperCase())).size>4){say('Usá hasta cuatro colores compartidos: elegí para el centro uno de los colores de la paleta.');throw Error('El centro debe compartir la paleta de cuatro colores.');}return[-1,...pal.map((_,i)=>i),...(scene.eyeFull&&scene.ring?[-2]:[])].map(k=>{let m=meshFor(k);m.color=k<0?$('baseColor').value:pal[k];m.name=k===-2?'Ojal':k<0?'Base':'Color '+(k+1);return m}).filter(m=>m.tris.length)}
+function meshes(){if(hasIndependentBack()&&backSrc.__printaplabQr&&backSrc.__qrReferenceWidth&&backSrc.__qrModuleMm*num('width')/backSrc.__qrReferenceWidth<1){say('El QR quedó demasiado pequeño al reducir la pieza. Aumentá el ancho o volvé a aplicar el QR.');throw Error('Módulos QR menores de 1 mm.');}if($('differentBack').checked&&!backSrc){say('Cargá la imagen del reverso o desactivá la opción de imagen diferente.');throw Error('Falta la imagen del reverso.')}if($('differentBack').checked&&new Set([$('baseColor').value,...pal].map(c=>c.toUpperCase())).size>4){say('Usá hasta cuatro colores compartidos: elegí para el centro uno de los colores de la paleta.');throw Error('El centro debe compartir la paleta de cuatro colores.');}return[-1,...pal.map((_,i)=>i),...(scene.eyeFull&&scene.ring?[-2]:[])].map(k=>{let m=meshFor(k);m.color=k<0?$('baseColor').value:pal[k];m.name=k===-2?'Ojal':k<0?'Base':'Color '+(k+1);return m}).filter(m=>m.tris.length)}
 function stl(ms){let total=ms.reduce((s,m)=>s+m.tris.length,0),a=new Uint8Array(84+total*50),v=new DataView(a.buffer);v.setUint32(80,total,true);let off=84;for(let m of ms)for(let t of m.tris){let p=t.map(i=>m.verts[i]),u=p[1].map((n,i)=>n-p[0][i]),w=p[2].map((n,i)=>n-p[0][i]),n=[u[1]*w[2]-u[2]*w[1],u[2]*w[0]-u[0]*w[2],u[0]*w[1]-u[1]*w[0]],l=Math.hypot(...n)||1;for(let c of [...n.map(a=>a/l),...p.flat()]){v.setFloat32(off,c,true);off+=4}off+=2}return a}
 function zip(files){let enc=new TextEncoder(),chunks=[],central=[],offset=0,table=Array.from({length:256},(_,n)=>{for(let j=0;j<8;j++)n=n&1?0xedb88320^(n>>>1):n>>>1;return n>>>0});for(let [name,content]of files){let n=enc.encode(name),d=typeof content==='string'?enc.encode(content):content,crc=0xffffffff;for(let b of d)crc=table[(crc^b)&255]^(crc>>>8);crc=(crc^0xffffffff)>>>0;let h=new Uint8Array(30+n.length),v=new DataView(h.buffer);v.setUint32(0,0x04034b50,true);v.setUint16(4,20,true);v.setUint32(14,crc,true);v.setUint32(18,d.length,true);v.setUint32(22,d.length,true);v.setUint16(26,n.length,true);h.set(n,30);chunks.push(h,d);let c=new Uint8Array(46+n.length),z=new DataView(c.buffer);z.setUint32(0,0x02014b50,true);z.setUint16(4,20,true);z.setUint16(6,20,true);z.setUint32(16,crc,true);z.setUint32(20,d.length,true);z.setUint32(24,d.length,true);z.setUint16(28,n.length,true);z.setUint32(42,offset,true);c.set(n,46);central.push(c);offset+=h.length+d.length}let end=new Uint8Array(22),v=new DataView(end.buffer);v.setUint32(0,0x06054b50,true);v.setUint16(8,files.length,true);v.setUint16(10,files.length,true);v.setUint32(12,central.reduce((s,c)=>s+c.length,0),true);v.setUint32(16,offset,true);return new Blob([...chunks,...central,end],{type:'application/zip'})}
 function uuid(n,suffix){return n.toString(16).padStart(8,'0')+'-'+suffix}

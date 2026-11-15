@@ -56,3 +56,14 @@ El selector Posavasos aplica disco de 90 mm, sin agujero, resolución 400 y una 
 En ambos productos se puede activar «Usar una imagen diferente en el reverso». El frente define el contorno y el reverso se centra y recorta a esa misma pieza; su orientación se corrige para leerlo desde afuera. Las dos imágenes comparten hasta cuatro colores, incluido el centro. Se usan obligatoriamente tres capas de color por cara y centro sólido de un solo color. Con capa de 0,2 mm y centro de 2 mm, espesor total 3,2 mm. La miniatura del 3MF muestra ambas referencias. Al desactivar la opción se restauran los ajustes anteriores.
 
 Se conservan el formulario y los archivos de acceso Supabase, incluida la comprobación de permiso antes de descargar. Validación: pruebas de geometría (`node tests/different-images.cjs`), conversión/exportación en Chrome y bloqueo de descarga sin autorización. Las credenciales reales y la impresión física deben comprobarse aparte.
+
+
+## Generador QR integrado
+
+«Crear código QR» toma la paleta de la imagen frontal y usa sus dos tonos de mayor contraste, sin añadir filamentos ni modificar el frente. El destino es siempre el reverso. Si el centro usaba un quinto color, reutiliza el tono oscuro del frente. El centro continúa siendo sólido y de un solo color.
+
+El enlace http/https se codifica íntegramente en el navegador con la biblioteca MIT de [Project Nayuki](https://www.nayuki.io/page/qr-code-generator-library), incluida en el HTML; no se abre ni se envía a un servicio QR externo. También se puede guardar el PNG. Tanto PNG como 3MF pasan por el mismo control de descarga de Supabase.
+
+Se reserva un margen claro de cuatro módulos y se mantienen cuadrados sin suavizado, de al menos 1 mm. Cuando el enlace necesita más espacio, se ofrece aumentar explícitamente el ancho y aplicar el QR; reducirlo después por debajo de ese mínimo bloquea la exportación. Un enlace muy extenso puede exceder la capacidad de un QR o el tamaño de la pieza. No se puede garantizar legibilidad física sin probar la pieza impresa.
+
+Validación: `node tests/qr-palette.cjs`, `node tests/access-dom.cjs`, `node tests/different-images.cjs` y pruebas de navegador con red bloqueada, decodificador independiente de la previsualización y mapa de material del reverso, cuatro filamentos, conservación del frente, ajuste de tamaño y exportación 3MF. Se conservaron los archivos de autenticación y el formulario/barra de sesión. Probar el QR con un teléfono antes de imprimir y en la pieza terminada.
